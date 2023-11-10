@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum Category {
@@ -30,5 +31,13 @@ public enum Category {
     Category(String viewName, List<Menu> menus) {
         this.viewName = viewName;
         this.menus = menus;
+    }
+
+    public static Menu findMenuByName(String menuName) {
+        return Arrays.stream(Category.values())
+                .flatMap(category -> category.menus.stream())
+                .filter(menu -> menu.name().equals(menuName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
     }
 }
