@@ -40,4 +40,16 @@ public enum Category {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
     }
+
+    public static Category from(String menuName) {
+        return Arrays.stream(Category.values())
+                .filter(category -> category.menus.stream()
+                        .anyMatch(menu -> menu.name().equals(menuName)))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
 }
