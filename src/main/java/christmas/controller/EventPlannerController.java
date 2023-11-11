@@ -1,5 +1,8 @@
 package christmas.controller;
 
+import christmas.domain.VisitDate;
+import christmas.exception.ErrorMesssage;
+import christmas.exception.InvalidInputException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
@@ -24,5 +27,15 @@ public class EventPlannerController {
         outputView.displayTotalBenefitAmount();
         outputView.displayTotalPriceAfterDiscount();
         outputView.displayDecemberEventBadge();
+    }
+
+    private VisitDate readVisitDate() {
+        try {
+            String input = inputView.readVisitDate();
+            int visitDate = Integer.parseInt(input);
+            return new VisitDate(visitDate);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException(ErrorMesssage.INVALID_VISIT_DATE);
+        }
     }
 }
