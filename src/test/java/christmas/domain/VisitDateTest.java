@@ -1,13 +1,24 @@
 package christmas.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("VisitDate Record 테스트")
+@DisplayName("VisitDate 클래스 테스트")
 class VisitDateTest {
+    @DisplayName("생성자 테스트")
+    @Test
+    void constructor() {
+        int day = 1;
+        assertThat(new VisitDate(day).getDate())
+                .isEqualTo(LocalDate.of(2023, 12, day));
+    }
+
+
     @Nested
     @DisplayName("예외 테스트")
     class ExceptionTest {
