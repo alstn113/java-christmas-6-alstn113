@@ -16,6 +16,7 @@ public class EventPlannerController {
         outputView.displayWelcomeMessage();
         // TODO 방문 날짜 입력
         // TODO 주문 입력
+        outputView.displayEventPreviewMessage();
         outputView.displayOrderedMenu();
         outputView.displayTotalPriceBeforeDiscount();
         outputView.displayGiftMenu();
