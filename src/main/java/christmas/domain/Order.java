@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import christmas.exception.ErrorMesssage;
+import christmas.exception.InvalidInputException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +20,13 @@ public class Order {
 
     private void validateOrderNotOnlyDrink(List<OrderItem> orderItems) {
         if (allItemsAreDrinks(orderItems)) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요");
+            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
         }
     }
 
     private void validateMaxMenuQuantity(List<OrderItem> orderItems) {
         if (totalQuantity(orderItems) > 20) {
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
+            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
         }
     }
 
