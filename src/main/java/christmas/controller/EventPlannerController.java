@@ -13,6 +13,15 @@ public class EventPlannerController {
     }
 
     public void run() {
-        // TODO 구현 진행
+        outputView.displayWelcomeMessage();
+        // TODO 방문 날짜 입력
+        // TODO 주문 입력
+        outputView.displayOrderedMenu();
+        outputView.displayTotalPriceBeforeDiscount();
+        outputView.displayGiftMenu();
+        outputView.displayBenefitDetails();
+        outputView.displayTotalBenefitAmount();
+        outputView.displayTotalPriceAfterDiscount();
+        outputView.displayDecemberEventBadge();
     }
 }
