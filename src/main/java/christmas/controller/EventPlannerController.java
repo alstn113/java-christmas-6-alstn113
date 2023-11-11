@@ -7,10 +7,8 @@ import christmas.exception.ErrorMesssage;
 import christmas.exception.InvalidInputException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class EventPlannerController {
     private final InputView inputView;
@@ -48,17 +46,17 @@ public class EventPlannerController {
     private Order readOrder() {
         try {
             String input = inputView.readOrder();
-            List<OrderItem> orders = new ArrayList<>();
             String[] menuAndCount = input.split(",", -1);
-            for (String menuAndCountString : menuAndCount) {
-                String[] menuAndCountArray = menuAndCountString.split("-", -1);
-                String menu = menuAndCountArray[0];
-                int count = Integer.parseInt(menuAndCountArray[1]);
-                OrderItem orderItem = new OrderItem(menu, count);
-                orders.add(orderItem);
-            }
-            return new Order(orders);
-
+            List<OrderItem> orderItems = Arrays.stream(menuAndCount)
+                    .map(String::trim)
+                    .map(s -> s.split(" ", -1))
+                    .map(s -> {
+                        if (s.length != 2) {
+                            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+                        }
+                        return new OrderItem(s[0], Integer.parseInt(s[1]));
+                    }).toList();
+            return new Order(orderItems);
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
         }
