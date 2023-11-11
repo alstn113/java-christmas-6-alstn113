@@ -18,7 +18,6 @@ class VisitDateTest {
                 .isEqualTo(LocalDate.of(2023, 12, day));
     }
 
-
     @Nested
     @DisplayName("예외 테스트")
     class ExceptionTest {

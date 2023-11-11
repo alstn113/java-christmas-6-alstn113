@@ -1,19 +1,20 @@
 package christmas.domain.discount;
 
 import christmas.domain.Order;
+import java.time.LocalDate;
 
 public abstract class DiscountStrategy {
-    private final int startDate;
-    private final int endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
-    protected DiscountStrategy(int startDate, int endDate) {
+    protected DiscountStrategy(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
     public abstract int calculateDiscount(Order order);
 
-    public boolean isApplicable(int currentDate) {
-        return currentDate >= startDate && currentDate <= endDate;
+    public boolean isApplicable(LocalDate currentDate) {
+        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate.plusDays(1));
     }
 }
