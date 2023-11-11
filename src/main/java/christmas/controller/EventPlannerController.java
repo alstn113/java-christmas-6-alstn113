@@ -21,8 +21,8 @@ public class EventPlannerController {
 
     public void run() {
         outputView.displayWelcomeMessage();
-        // TODO 방문 날짜 입력
-        // TODO 주문 입력
+        VisitDate visitDate = readVisitDate();
+        Order order = readOrder();
         outputView.displayEventPreviewMessage();
         outputView.displayOrderedMenu();
         outputView.displayTotalPriceBeforeDiscount();
