@@ -27,6 +27,18 @@ class OrderTest {
         }
 
         @Test
+        @DisplayName("중복된 메뉴가 존재하는 경우 예외 발생")
+        void validateDuplicateMenu() {
+            List<OrderItem> orderItems = List.of(
+                    new OrderItem("티본스테이크", 3),
+                    new OrderItem("초코케이크", 5),
+                    new OrderItem("티본스테이크", 2)
+            );
+            assertThatThrownBy(() -> new Order(orderItems))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
         @DisplayName("음료만 주문한 경우 예외 발생")
         void validateOrderNotOnlyDrink() {
             List<OrderItem> drinkItems = List.of(

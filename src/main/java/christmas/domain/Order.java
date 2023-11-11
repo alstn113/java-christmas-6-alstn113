@@ -4,9 +4,7 @@ import christmas.exception.ErrorMesssage;
 import christmas.exception.InvalidInputException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Order {
     private final List<OrderItem> orderItems;
@@ -18,6 +16,7 @@ public class Order {
 
     private void validate(List<OrderItem> orderItems) {
         validateMaxMenuQuantity(orderItems);
+        validteDulicateMenu(orderItems);
         validateOrderNotOnlyDrink(orderItems);
     }
 
@@ -29,6 +28,12 @@ public class Order {
 
     private void validateMaxMenuQuantity(List<OrderItem> orderItems) {
         if (totalQuantity(orderItems) > 20) {
+            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+        }
+    }
+
+    private void validteDulicateMenu(List<OrderItem> orderItems) {
+        if (orderItems.stream().map(OrderItem::menuName).distinct().count() != orderItems.size()) {
             throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
         }
     }
