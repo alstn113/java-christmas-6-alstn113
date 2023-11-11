@@ -1,5 +1,7 @@
 package christmas.view.console;
 
+import christmas.domain.Order;
+import christmas.domain.OrderItem;
 import christmas.view.OutputView;
 
 public class ConsoleOutputView implements OutputView {
@@ -14,15 +16,21 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void displayOrderedMenu() {
+    public void displayOrderDetails(Order order) {
         System.out.println();
         System.out.println("<주문 메뉴>");
+        for (OrderItem orderItem : order.getOrderItems()) {
+            String menuName = orderItem.menuName();
+            int quantity = orderItem.quantity();
+            System.out.printf("%s %d개%n", menuName, quantity);
+        }
     }
 
     @Override
-    public void displayTotalPriceBeforeDiscount() {
+    public void displayTotalPriceBeforeDiscount(Order order) {
         System.out.println();
         System.out.println("<할인 전 총주문 금액>");
+        System.out.printf("%,d원%n", order.totalPrice());
     }
 
     @Override

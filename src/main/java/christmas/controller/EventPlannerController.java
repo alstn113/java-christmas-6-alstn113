@@ -24,8 +24,10 @@ public class EventPlannerController {
         VisitDate visitDate = readVisitDate();
         Order order = readOrder();
         outputView.displayEventPreviewMessage();
-        outputView.displayOrderedMenu();
-        outputView.displayTotalPriceBeforeDiscount();
+
+        outputView.displayOrderDetails(order);
+        outputView.displayTotalPriceBeforeDiscount(order);
+
         outputView.displayGiftMenu();
         outputView.displayBenefitDetails();
         outputView.displayTotalBenefitAmount();
@@ -49,10 +51,10 @@ public class EventPlannerController {
             String[] menuAndCount = input.split(",", -1);
             List<OrderItem> orderItems = Arrays.stream(menuAndCount)
                     .map(String::trim)
-                    .map(s -> s.split(" ", -1))
+                    .map(s -> s.split("-", -1))
                     .map(s -> {
                         if (s.length != 2) {
-                            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+                            throw new IllegalArgumentException();
                         }
                         return new OrderItem(s[0], Integer.parseInt(s[1]));
                     }).toList();

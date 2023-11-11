@@ -5,10 +5,10 @@ import christmas.exception.InvalidInputException;
 
 public record VisitDate(int date) {
     public VisitDate {
-        validateVisitDate();
+        validateVisitDate(date);
     }
 
-    private void validateVisitDate() {
+    private void validateVisitDate(int date) {
         if (date < 1 || date > 31) {
             throw new InvalidInputException(ErrorMesssage.INVALID_VISIT_DATE);
         }

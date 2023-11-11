@@ -3,7 +3,10 @@ package christmas.domain;
 import christmas.exception.ErrorMesssage;
 import christmas.exception.InvalidInputException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Order {
     private final List<OrderItem> orderItems;
@@ -46,5 +49,9 @@ public class Order {
         return orderItems.stream()
                 .mapToInt(OrderItem::quantity)
                 .sum();
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return Collections.unmodifiableList(orderItems);
     }
 }

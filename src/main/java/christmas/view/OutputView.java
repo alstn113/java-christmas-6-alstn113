@@ -1,13 +1,15 @@
 package christmas.view;
 
+import christmas.domain.Order;
+
 public interface OutputView {
     void displayWelcomeMessage();
 
     void displayEventPreviewMessage();
 
-    void displayOrderedMenu();
+    void displayOrderDetails(Order order);
 
-    void displayTotalPriceBeforeDiscount();
+    void displayTotalPriceBeforeDiscount(Order order);
 
     void displayGiftMenu();
 
