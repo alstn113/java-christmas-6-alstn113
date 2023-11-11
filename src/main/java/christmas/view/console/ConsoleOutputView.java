@@ -27,10 +27,10 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void displayTotalPriceBeforeDiscount(Order order) {
+    public void displayTotalPriceBeforeDiscount(int totalPrice) {
         System.out.println();
         System.out.println("<할인 전 총주문 금액>");
-        System.out.printf("%,d원%n", order.totalPrice());
+        System.out.printf("%,d원%n", totalPrice);
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface OutputView {
 
     void displayOrderDetails(Order order);
 
-    void displayTotalPriceBeforeDiscount(Order order);
+    void displayTotalPriceBeforeDiscount(int totalPrice);
 
     void displayGiftMenu();
 

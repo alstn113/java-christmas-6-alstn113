@@ -26,7 +26,8 @@ public class EventPlannerController {
         outputView.displayEventPreviewMessage();
 
         outputView.displayOrderDetails(order);
-        outputView.displayTotalPriceBeforeDiscount(order);
+        int totalPrice = order.totalPrice();
+        outputView.displayTotalPriceBeforeDiscount(totalPrice);
 
         outputView.displayGiftMenu();
         outputView.displayBenefitDetails();
