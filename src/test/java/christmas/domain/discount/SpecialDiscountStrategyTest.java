@@ -64,8 +64,8 @@ class SpecialDiscountStrategyTest {
         LocalDate date2 = LocalDate.of(2023, 12, 18); // 월요일
         LocalDate date3 = LocalDate.of(2023, 12, 28); // 목요일
 
-        assertThat(strategy.calculateDiscount(order, date1)).isEqualTo(0);
-        assertThat(strategy.calculateDiscount(order, date2)).isEqualTo(0);
-        assertThat(strategy.calculateDiscount(order, date3)).isEqualTo(0);
+        assertThat(strategy.calculateDiscount(order, date1)).isZero();
+        assertThat(strategy.calculateDiscount(order, date2)).isZero();
+        assertThat(strategy.calculateDiscount(order, date3)).isZero();
     }
 }
