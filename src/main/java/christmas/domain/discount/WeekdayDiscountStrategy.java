@@ -10,9 +10,6 @@ public class WeekdayDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
-        if (!isApplicable(currentDate)) {
-            return 0;
-        }
         int desertQuantity = order.getQuantityByCategory(Category.DESSERT);
         return desertQuantity * DISCOUNT_PER_DESSERT;
     }

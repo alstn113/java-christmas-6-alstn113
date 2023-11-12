@@ -32,35 +32,35 @@ class WeekendDiscountStrategyTest {
 
     @Test
     @DisplayName("12월 1일 ~ 12월 31일이 아닌 경우 0을 반환한다.")
-    void calculateDiscountTest1() {
+    void applyDiscountTest1() {
         LocalDate date1 = LocalDate.of(2023, 11, 30);
         LocalDate date2 = LocalDate.of(2024, 1, 1);
 
-        assertThat(strategy.calculateDiscount(order, date1)).isZero();
-        assertThat(strategy.calculateDiscount(order, date2)).isZero();
+        assertThat(strategy.applyDiscount(order, date1)).isZero();
+        assertThat(strategy.applyDiscount(order, date2)).isZero();
     }
 
     @Test
     @DisplayName("12월 1일 ~ 12월 31일이고, 평일인 경우(금요일, 토요일이 아닌 경우) 0을 반환한다.")
-    void calculateDiscountTest2() {
+    void applyDiscountTest2() {
         LocalDate date1 = LocalDate.of(2023, 12, 5); // 화요일
         LocalDate date2 = LocalDate.of(2023, 12, 18); // 월요일
         LocalDate date3 = LocalDate.of(2023, 12, 28); // 목요일
 
-        assertThat(strategy.calculateDiscount(order, date1)).isZero();
-        assertThat(strategy.calculateDiscount(order, date2)).isZero();
-        assertThat(strategy.calculateDiscount(order, date3)).isZero();
+        assertThat(strategy.applyDiscount(order, date1)).isZero();
+        assertThat(strategy.applyDiscount(order, date2)).isZero();
+        assertThat(strategy.applyDiscount(order, date3)).isZero();
     }
 
     @Test
     @DisplayName("12월 1일 ~ 12월 31일이고, 주말이 아닌 경우 디저트 개수당 2023원을 할인한다.")
-    void calculateDiscountTest3() {
+    void applyDiscountTest3() {
         LocalDate date1 = LocalDate.of(2023, 12, 1); // 금요일
         LocalDate date2 = LocalDate.of(2023, 12, 8); // 금요일
         LocalDate date3 = LocalDate.of(2023, 12, 30); // 토요일
 
-        assertThat(strategy.calculateDiscount(order, date1)).isEqualTo(6069);
-        assertThat(strategy.calculateDiscount(order, date2)).isEqualTo(6069);
-        assertThat(strategy.calculateDiscount(order, date3)).isEqualTo(6069);
+        assertThat(strategy.applyDiscount(order, date1)).isEqualTo(6069);
+        assertThat(strategy.applyDiscount(order, date2)).isEqualTo(6069);
+        assertThat(strategy.applyDiscount(order, date3)).isEqualTo(6069);
     }
 }

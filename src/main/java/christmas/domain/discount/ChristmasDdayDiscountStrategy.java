@@ -15,9 +15,6 @@ public class ChristmasDdayDiscountStrategy extends DiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
-        if (!isApplicable(currentDate)) {
-            return 0;
-        }
         int daysFromEventStart = EVENT_START_DATE.until(currentDate).getDays();
         return DEFAULT_DISCOUNT + DISCOUNT_PER_DAY * daysFromEventStart;
     }

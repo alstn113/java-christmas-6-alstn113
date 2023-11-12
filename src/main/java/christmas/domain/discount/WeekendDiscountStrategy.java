@@ -10,9 +10,6 @@ public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
-        if (!isApplicable(currentDate)) {
-            return 0;
-        }
         int mainQuantity = order.getQuantityByCategory(Category.MAIN);
         return mainQuantity * DISCOUNT_PER_MAIN;
     }
