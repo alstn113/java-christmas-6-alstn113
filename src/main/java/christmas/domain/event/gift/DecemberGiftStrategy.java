@@ -16,13 +16,15 @@ public class DecemberGiftStrategy extends GiftStrategy {
 
     @Override
     public OrderItem giveGift(Order order, LocalDate currentDate) {
-        if (!isConditionSatisfied(order)) {
-            return null;
-        }
         return new OrderItem("샴페인", 1);
     }
 
-    private boolean isConditionSatisfied(Order order) {
+    @Override
+    public boolean isApplicable(LocalDate currentDate, Order order) {
+        return super.isApplicable(currentDate, order) && isConditionPriceSatisfied(order);
+    }
+
+    private boolean isConditionPriceSatisfied(Order order) {
         return order.totalPrice() >= CONDITION_PRICE;
     }
 }

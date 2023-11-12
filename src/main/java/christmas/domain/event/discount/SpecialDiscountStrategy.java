@@ -10,10 +10,12 @@ public class SpecialDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
-        if (!isSpecialDay(currentDate)) {
-            return 0;
-        }
         return SPECIAL_DISCOUNT;
+    }
+
+    @Override
+    public boolean isApplicable(LocalDate currentDate, Order order) {
+        return super.isApplicable(currentDate, order) && isSpecialDay(currentDate);
     }
 
     private boolean isSpecialDay(LocalDate currentDate) {

@@ -10,14 +10,14 @@ public class WeekdayDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
-        if (!isWeekday(currentDate)) {
-            return 0;
-        }
-
         int desertQuantity = order.getQuantityByCategory(Category.DESSERT);
         return desertQuantity * DISCOUNT_PER_DESSERT;
     }
 
+    @Override
+    public boolean isApplicable(LocalDate currentDate, Order order) {
+        return super.isApplicable(currentDate, order) && isWeekday(currentDate);
+    }
 
     private boolean isWeekday(LocalDate currentDate) {
         DayOfWeek dayOfWeek = currentDate.getDayOfWeek();

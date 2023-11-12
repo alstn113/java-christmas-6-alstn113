@@ -18,6 +18,11 @@ public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
         return mainQuantity * DISCOUNT_PER_MAIN;
     }
 
+    @Override
+    public boolean isApplicable(LocalDate currentDate, Order order) {
+        return super.isApplicable(currentDate, order) && isWeekend(currentDate);
+    }
+
     private boolean isWeekend(LocalDate currentDate) {
         DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
         return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;

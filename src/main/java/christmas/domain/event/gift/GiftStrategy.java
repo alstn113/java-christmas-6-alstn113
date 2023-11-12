@@ -11,7 +11,7 @@ public abstract class GiftStrategy extends EventStrategy {
     }
 
     public OrderItem applyGift(Order order, LocalDate currentDate) {
-        if (!isInProgress(currentDate)) {
+        if (!isApplicable(currentDate, order)) {
             return null;
         }
         return giveGift(order, currentDate);

@@ -10,7 +10,7 @@ public abstract class DiscountStrategy extends EventStrategy {
     }
 
     public int applyDiscount(Order order, LocalDate currentDate) {
-        if (!isInProgress(currentDate)) {
+        if (!isApplicable(currentDate, order)) {
             return 0;
         }
         return calculateDiscount(order, currentDate);
