@@ -1,6 +1,6 @@
 package christmas.domain.event;
 
-import christmas.domain.Order;
+import christmas.domain.order.Order;
 import java.time.LocalDate;
 
 public abstract class EventStrategy {

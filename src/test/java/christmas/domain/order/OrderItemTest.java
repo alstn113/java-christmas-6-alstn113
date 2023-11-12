@@ -1,8 +1,11 @@
-package christmas.domain;
+package christmas.domain.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import christmas.domain.order.Category;
+import christmas.domain.order.Menu;
+import christmas.domain.order.OrderItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,21 +16,21 @@ class OrderItemTest {
     @Test
     void testPrice() {
         OrderItem orderItem = new OrderItem("양송이수프", 2);
-        assertThat(orderItem.price()).isEqualTo(12000);
+        assertThat(orderItem.getTotalPrice()).isEqualTo(12000);
     }
 
     @DisplayName("category 메서드는 주문 항목의 카테고리를 반환한다.")
     @Test
     void testCategory() {
         OrderItem orderItem = new OrderItem("타파스", 1);
-        assertThat(orderItem.category()).isEqualTo(Category.APPETIZER);
+        assertThat(orderItem.getCategory()).isEqualTo(Category.APPETIZER);
     }
 
     @DisplayName("menu 메서드는 주문 항목의 메뉴를 반환한다.")
     @Test
     void testMenu() {
         OrderItem orderItem = new OrderItem("레드와인", 1);
-        assertThat(orderItem.menu()).extracting(Menu::name, Menu::price)
+        assertThat(orderItem.getMenu()).extracting(Menu::getViewName, Menu::getPrice)
                 .containsExactly("레드와인", 60000);
     }
 

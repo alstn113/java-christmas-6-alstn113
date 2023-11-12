@@ -1,8 +1,8 @@
 package christmas.view.console;
 
 import christmas.domain.Badge;
-import christmas.domain.Order;
-import christmas.domain.OrderItem;
+import christmas.domain.order.Order;
+import christmas.domain.order.OrderItem;
 import christmas.domain.event.Event;
 import christmas.view.OutputView;
 import java.util.List;
@@ -24,8 +24,8 @@ public class ConsoleOutputView implements OutputView {
         System.out.println();
         System.out.println("<주문 메뉴>");
         for (OrderItem orderItem : order.getOrderItems()) {
-            String menuName = orderItem.menuName();
-            int quantity = orderItem.quantity();
+            String menuName = orderItem.getMenu().getViewName();
+            int quantity = orderItem.getQuantity();
             System.out.printf("%s %d개%n", menuName, quantity);
         }
     }
@@ -46,8 +46,8 @@ public class ConsoleOutputView implements OutputView {
             return;
         }
         for (OrderItem giftMenu : giftMenus) {
-            String menuName = giftMenu.menuName();
-            int quantity = giftMenu.quantity();
+            String menuName = giftMenu.getMenu().getViewName();
+            int quantity = giftMenu.getQuantity();
             System.out.printf("%s %d개%n", menuName, quantity);
         }
     }

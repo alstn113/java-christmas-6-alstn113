@@ -3,6 +3,8 @@ package christmas.domain;
 import christmas.domain.event.Event;
 import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
+import christmas.domain.order.Order;
+import christmas.domain.order.OrderItem;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,9 +32,7 @@ public class OrderResult {
             int discountAmount = eventResult.getDiscountAmount();
             totalDiscountAmount += discountAmount;
             eventResult.getGift().ifPresent(giftMenus::add);
-            int totalGiftPrice = giftMenus.stream()
-                    .mapToInt(giftMenu -> giftMenu.quantity() * giftMenu.price())
-                    .sum();
+            int totalGiftPrice = getTotalGiftPrice();
             benefits.put(event, -1 * (discountAmount + totalGiftPrice));
 
         }
@@ -56,10 +56,14 @@ public class OrderResult {
     }
 
     public int getTotalBenefitAmount() {
-        int totalGiftPrice = giftMenus.stream()
-                .mapToInt(giftMenu -> giftMenu.quantity() * giftMenu.price())
-                .sum();
+        int totalGiftPrice = getTotalGiftPrice();
         return -1 * (totalDiscountAmount + totalGiftPrice);
+    }
+
+    private int getTotalGiftPrice() {
+        return giftMenus.stream()
+                .mapToInt(OrderItem::getTotalPrice)
+                .sum();
     }
 
     public int getTotalPriceAfterDiscount() {

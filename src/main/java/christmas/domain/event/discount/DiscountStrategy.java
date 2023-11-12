@@ -1,6 +1,6 @@
 package christmas.domain.event.discount;
 
-import christmas.domain.Order;
+import christmas.domain.order.Order;
 import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package christmas.domain.event;
 
-import christmas.domain.OrderItem;
+import christmas.domain.order.OrderItem;
 import java.util.Optional;
 
 public class EventResult {

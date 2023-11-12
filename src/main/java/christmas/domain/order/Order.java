@@ -1,4 +1,4 @@
-package christmas.domain;
+package christmas.domain.order;
 
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
@@ -33,33 +33,33 @@ public class Order {
     }
 
     private void validateDuplicateMenu(List<OrderItem> orderItems) {
-        if (orderItems.stream().map(OrderItem::menuName).distinct().count() != orderItems.size()) {
+        if (orderItems.stream().map(OrderItem::getMenu).distinct().count() != orderItems.size()) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 
     public int totalPrice() {
         return orderItems.stream()
-                .mapToInt(OrderItem::price)
+                .mapToInt(OrderItem::getTotalPrice)
                 .sum();
     }
 
     private boolean allItemsAreDrinks(List<OrderItem> orderItems) {
         return orderItems.stream()
-                .allMatch(orderItem -> orderItem.category() == Category.DRINK);
+                .allMatch(orderItem -> orderItem.getCategory() == Category.DRINK);
     }
 
 
     private int totalQuantity(List<OrderItem> orderItems) {
         return orderItems.stream()
-                .mapToInt(OrderItem::quantity)
+                .mapToInt(OrderItem::getQuantity)
                 .sum();
     }
 
     public int getQuantityByCategory(Category category) {
         return orderItems.stream()
-                .filter(orderItem -> orderItem.category() == category)
-                .mapToInt(OrderItem::quantity)
+                .filter(orderItem -> orderItem.getCategory() == category)
+                .mapToInt(OrderItem::getQuantity)
                 .sum();
     }
 

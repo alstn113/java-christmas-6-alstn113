@@ -1,12 +1,12 @@
 package christmas.controller;
 
-import christmas.domain.Order;
-import christmas.domain.OrderItem;
+import christmas.domain.order.Order;
+import christmas.domain.order.OrderItem;
 import christmas.domain.OrderResult;
 import christmas.domain.VisitDate;
+import christmas.domain.event.Event;
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
-import christmas.service.EventPlannerService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import christmas.view.util.InputUtil;
@@ -16,20 +16,17 @@ import java.util.List;
 public class EventPlannerController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final EventPlannerService eventPlannerService;
 
-    public EventPlannerController(final InputView inputView, final OutputView outputView,
-                                  final EventPlannerService eventPlannerService) {
+    public EventPlannerController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.eventPlannerService = eventPlannerService;
     }
 
     public void run() {
-        outputView.displayWelcomeMessage();
+        displayWelcomeMessage();
         VisitDate visitDate = readVisitDate();
         Order order = readOrder();
-        OrderResult orderResult = eventPlannerService.getOrderResult(visitDate, order);
+        OrderResult orderResult = generateOrderResult(visitDate, order);
         displayEventBenefitsPreview(orderResult);
     }
 
@@ -68,6 +65,20 @@ public class EventPlannerController {
         return new OrderItem(menuAndCount[0], Integer.parseInt(menuAndCount[1]));
     }
 
+    private OrderResult generateOrderResult(VisitDate visitDate, Order order) {
+        List<Event> events = List.of(
+                Event.CHRISTMAS_DDAY_DISCOUNT,
+                Event.WEEKDAY_DISCOUNT,
+                Event.WEEKEND_DISCOUNT,
+                Event.SPECIAL_DISCOUNT,
+                Event.GIFT_EVENT
+        );
+        return new OrderResult(visitDate, order, events);
+    }
+
+    private void displayWelcomeMessage() {
+        outputView.displayWelcomeMessage();
+    }
 
     private void displayEventBenefitsPreview(OrderResult orderResult) {
         outputView.displayEventPreviewMessage();
