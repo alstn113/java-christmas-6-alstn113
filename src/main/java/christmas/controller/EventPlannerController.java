@@ -1,10 +1,10 @@
 package christmas.controller;
 
-import christmas.domain.order.Order;
-import christmas.domain.order.OrderItem;
 import christmas.domain.OrderResult;
 import christmas.domain.VisitDate;
 import christmas.domain.event.Event;
+import christmas.domain.order.Order;
+import christmas.domain.order.OrderItem;
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 import christmas.view.InputView;
@@ -62,7 +62,9 @@ public class EventPlannerController {
         if (menuAndCount.length != 2) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
-        return new OrderItem(menuAndCount[0], Integer.parseInt(menuAndCount[1]));
+        String menu = menuAndCount[0];
+        int quantity = Integer.parseInt(menuAndCount[1]);
+        return new OrderItem(menu, quantity);
     }
 
     private OrderResult generateOrderResult(VisitDate visitDate, Order order) {

@@ -1,12 +1,15 @@
 package christmas.domain.order;
 
+import christmas.exception.ErrorMessage;
+import christmas.exception.InvalidInputException;
+
 public class OrderItem {
     private final Menu menu;
     private final int quantity;
 
     public OrderItem(String menuName, int quantity) {
         validateQuantity(quantity);
-        this.menu = Menu.findMenuByName(menuName);
+        this.menu = validateMenu(menuName);
         this.quantity = quantity;
     }
 
@@ -16,9 +19,17 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+    private Menu validateMenu(String menuName) {
+        try {
+            return Menu.findMenuByName(menuName);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
+        }
+    }
+
     private void validateQuantity(int quantity) {
         if (quantity < 1) {
-            throw new IllegalArgumentException("수량은 1개 이상이어야 합니다.");
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 

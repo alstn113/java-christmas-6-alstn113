@@ -1,5 +1,7 @@
 package christmas.domain.order;
 
+import christmas.exception.ErrorMessage;
+import christmas.exception.InvalidInputException;
 import java.util.Arrays;
 
 public enum Menu {
@@ -35,7 +37,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.getViewName().equals(menuName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
+                .orElseThrow(() -> new InvalidInputException(ErrorMessage.INVALID_MENU));
     }
 
     public String getViewName() {
