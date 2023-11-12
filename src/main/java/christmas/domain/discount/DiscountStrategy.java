@@ -12,7 +12,7 @@ public abstract class DiscountStrategy {
         this.endDate = endDate;
     }
 
-    public abstract int calculateDiscount(Order order);
+    public abstract int calculateDiscount(Order order, LocalDate currentDate);
 
     public boolean isApplicable(LocalDate currentDate) {
         // ex) 1~5일이면 1일, 5일은 포함

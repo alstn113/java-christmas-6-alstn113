@@ -9,7 +9,10 @@ public class SpecialDiscountStrategy extends DecemberDiscountStrategy {
     private static final int SPECIAL_DISCOUNT = 1000;
 
     @Override
-    public int calculateDiscount(Order order) {
+    public int calculateDiscount(Order order, LocalDate currentDate) {
+        if (!isApplicable(currentDate)) {
+            return 0;
+        }
         return SPECIAL_DISCOUNT;
     }
 

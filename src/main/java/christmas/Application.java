@@ -6,9 +6,13 @@ import christmas.view.console.ConsoleOutputView;
 
 public class Application {
     public static void main(String[] args) {
-        new EventPlannerController(
-                new ConsoleInputView(),
-                new ConsoleOutputView()
-        ).run();
+        try {
+            new EventPlannerController(
+                    new ConsoleInputView(),
+                    new ConsoleOutputView()
+            ).run();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
