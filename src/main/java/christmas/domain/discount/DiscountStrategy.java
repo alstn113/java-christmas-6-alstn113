@@ -15,6 +15,7 @@ public abstract class DiscountStrategy {
     public abstract int calculateDiscount(Order order);
 
     public boolean isApplicable(LocalDate currentDate) {
-        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate.plusDays(1));
+        // ex) 1~5일이면 1일, 5일은 포함
+        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate);
     }
 }

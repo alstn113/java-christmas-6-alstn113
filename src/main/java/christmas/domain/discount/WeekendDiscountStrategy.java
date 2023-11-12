@@ -5,14 +5,8 @@ import christmas.domain.Order;
 import christmas.domain.OrderItem;
 import java.time.LocalDate;
 
-public class WeekendDiscountStrategy extends DiscountStrategy {
-    private static final LocalDate START_DATE = LocalDate.of(2023, 12, 1);
-    private static final LocalDate END_DATE = LocalDate.of(2023, 12, 31);
+public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
     private static final int DISCOUNT_PER_MAIN = 2023;
-
-    public WeekendDiscountStrategy() {
-        super(START_DATE, END_DATE);
-    }
 
     @Override
     public int calculateDiscount(Order order) {
