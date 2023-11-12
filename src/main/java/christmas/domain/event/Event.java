@@ -20,4 +20,12 @@ public enum Event {
         this.viewName = viewName;
         this.eventStrategy = eventStrategy;
     }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public EventStrategy getEventStrategy() {
+        return eventStrategy;
+    }
 }

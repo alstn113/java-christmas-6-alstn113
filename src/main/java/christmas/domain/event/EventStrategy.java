@@ -13,6 +13,8 @@ public abstract class EventStrategy {
         this.endDate = endDate;
     }
 
+    public abstract EventResult applyEvent(LocalDate currentDate, Order order);
+
     public boolean isApplicable(LocalDate currentDate, Order order) {
         return isInProgress(currentDate) && isTotalPriceOverCondition(order);
     }

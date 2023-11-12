@@ -40,7 +40,7 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void displayBenefitDetails() {
+    public void displayBenefitsDetails() {
         System.out.println();
         System.out.println("<혜택 내역>");
     }

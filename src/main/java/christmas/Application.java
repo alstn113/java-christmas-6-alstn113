@@ -1,6 +1,7 @@
 package christmas;
 
 import christmas.controller.EventPlannerController;
+import christmas.service.EventPlannerService;
 import christmas.view.console.ConsoleInputView;
 import christmas.view.console.ConsoleOutputView;
 
@@ -9,7 +10,8 @@ public class Application {
         try {
             new EventPlannerController(
                     new ConsoleInputView(),
-                    new ConsoleOutputView()
+                    new ConsoleOutputView(),
+                    new EventPlannerService()
             ).run();
         } catch (Exception e) {
             System.out.println(e.getMessage());

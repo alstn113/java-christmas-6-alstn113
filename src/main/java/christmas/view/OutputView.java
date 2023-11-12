@@ -13,7 +13,7 @@ public interface OutputView {
 
     void displayGiftMenu();
 
-    void displayBenefitDetails();
+    void displayBenefitsDetails();
 
     void displayTotalBenefitAmount();
 

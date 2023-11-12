@@ -2,6 +2,7 @@ package christmas.domain.event.gift;
 
 import christmas.domain.Order;
 import christmas.domain.OrderItem;
+import christmas.domain.event.EventResult;
 import java.time.LocalDate;
 
 public class DecemberGiftStrategy extends GiftStrategy {
@@ -15,8 +16,9 @@ public class DecemberGiftStrategy extends GiftStrategy {
     }
 
     @Override
-    public OrderItem giveGift(Order order, LocalDate currentDate) {
-        return new OrderItem("샴페인", 1);
+    public EventResult applyGift(LocalDate currentDate, Order order) {
+        OrderItem gift = new OrderItem("샴페인", 1);
+        return new EventResult(0, gift);
     }
 
     @Override

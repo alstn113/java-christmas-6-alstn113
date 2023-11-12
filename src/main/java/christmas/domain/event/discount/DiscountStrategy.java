@@ -1,6 +1,7 @@
 package christmas.domain.event.discount;
 
 import christmas.domain.Order;
+import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
 import java.time.LocalDate;
 
@@ -9,12 +10,14 @@ public abstract class DiscountStrategy extends EventStrategy {
         super(startDate, endDate);
     }
 
-    public int applyDiscount(Order order, LocalDate currentDate) {
-        if (!isApplicable(currentDate, order)) {
-            return 0;
+    @Override
+    public EventResult applyEvent(LocalDate currentDate, Order order) {
+        if (isApplicable(currentDate, order)) {
+            return applyDiscount(currentDate, order);
         }
-        return calculateDiscount(order, currentDate);
+        return EventResult.empty();
     }
 
-    protected abstract int calculateDiscount(Order order, LocalDate currentDate);
+    public abstract EventResult applyDiscount(LocalDate currentDate, Order order);
+
 }

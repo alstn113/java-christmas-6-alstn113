@@ -74,5 +74,10 @@ class EventStrategyTest {
         public EventStrategyMock(LocalDate startDate, LocalDate endDate) {
             super(startDate, endDate);
         }
+
+        @Override
+        public EventResult applyEvent(LocalDate currentDate, Order order) {
+            return null;
+        }
     }
 }

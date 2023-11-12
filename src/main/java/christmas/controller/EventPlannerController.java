@@ -2,9 +2,11 @@ package christmas.controller;
 
 import christmas.domain.Order;
 import christmas.domain.OrderItem;
+import christmas.domain.OrderResult;
 import christmas.domain.VisitDate;
 import christmas.exception.ErrorMesssage;
 import christmas.exception.InvalidInputException;
+import christmas.service.EventPlannerService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import java.util.Arrays;
@@ -13,10 +15,13 @@ import java.util.List;
 public class EventPlannerController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final EventPlannerService eventPlannerService;
 
-    public EventPlannerController(final InputView inputView, final OutputView outputView) {
+    public EventPlannerController(final InputView inputView, final OutputView outputView,
+                                  final EventPlannerService eventPlannerService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.eventPlannerService = eventPlannerService;
     }
 
     public void run() {
@@ -25,14 +30,28 @@ public class EventPlannerController {
         Order order = readOrder();
         outputView.displayEventPreviewMessage();
 
+        OrderResult orderResult = eventPlannerService.getOrderResult(visitDate, order);
+
         outputView.displayOrderDetails(order);
+        System.out.println(orderResult.getOrder().getOrderItems());
+
         outputView.displayTotalPriceBeforeDiscount(order.totalPrice());
+        System.out.println(orderResult.getTotalPriceBeforeDiscount());
 
         outputView.displayGiftMenu();
-        outputView.displayBenefitDetails();
+        System.out.println(orderResult.getGiftMenuSummary());
+
+        outputView.displayBenefitsDetails();
+        System.out.println(orderResult.getBenefitsDetails().toString());
+
         outputView.displayTotalBenefitAmount();
+        System.out.println(orderResult.getTotalBenefits());
+
         outputView.displayTotalPriceAfterDiscount();
+        System.out.println(orderResult.getTotalPriceAfterDiscount());
+
         outputView.displayDecemberEventBadge();
+        System.out.println(orderResult.getBadge());
     }
 
     private VisitDate readVisitDate() {

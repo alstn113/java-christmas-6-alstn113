@@ -1,7 +1,7 @@
 package christmas.domain.event.gift;
 
 import christmas.domain.Order;
-import christmas.domain.OrderItem;
+import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
 import java.time.LocalDate;
 
@@ -10,12 +10,13 @@ public abstract class GiftStrategy extends EventStrategy {
         super(startDate, endDate);
     }
 
-    public OrderItem applyGift(Order order, LocalDate currentDate) {
-        if (!isApplicable(currentDate, order)) {
-            return null;
+    @Override
+    public EventResult applyEvent(LocalDate currentDate, Order order) {
+        if (isApplicable(currentDate, order)) {
+            return applyGift(currentDate, order);
         }
-        return giveGift(order, currentDate);
+        return EventResult.empty();
     }
 
-    public abstract OrderItem giveGift(Order order, LocalDate currentDate);
+    public abstract EventResult applyGift(LocalDate currentDate, Order order);
 }

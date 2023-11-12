@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.Order;
 import christmas.domain.OrderItem;
+import christmas.domain.event.EventResult;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +26,8 @@ class DecemberGiftStrategyTest {
         LocalDate date1 = LocalDate.of(2023, 11, 30);
         LocalDate date2 = LocalDate.of(2024, 1, 1);
 
-        assertThat(strategy.applyGift(order, date1)).isNull();
-        assertThat(strategy.applyGift(order, date2)).isNull();
+        assertThat(strategy.applyEvent(date1, order).getGift()).isEmpty();
+        assertThat(strategy.applyEvent(date2, order).getGift()).isEmpty();
     }
 
     @Test
@@ -43,10 +44,9 @@ class DecemberGiftStrategyTest {
         LocalDate date2 = LocalDate.of(2023, 12, 8); // 금요일
         LocalDate date3 = LocalDate.of(2023, 12, 31); // 토요일
 
-        assertThat(strategy.applyGift(order, date1)).isNull();
-        assertThat(strategy.applyGift(order, date2)).isNull();
-        assertThat(strategy.applyGift(order, date3)).isNull();
-
+        assertThat(strategy.applyEvent(date1, order).getGift()).isEmpty();
+        assertThat(strategy.applyEvent(date2, order).getGift()).isEmpty();
+        assertThat(strategy.applyEvent(date3, order).getGift()).isEmpty();
     }
 
     @Test
@@ -61,10 +61,10 @@ class DecemberGiftStrategyTest {
                 new OrderItem("제로콜라", 3)
         );
         Order order = new Order(orderItems);
-        LocalDate date1 = LocalDate.of(2023, 12, 5); // 화요일
-
-        assertThat(strategy.applyGift(order, date1)).isNotNull()
-                .extracting(OrderItem::menuName, OrderItem::quantity)
-                .isEqualTo(List.of("샴페인", 1));
+        LocalDate date = LocalDate.of(2023, 12, 5); // 화요일
+        EventResult result = strategy.applyEvent(date, order);
+        assertThat(result.getDiscountAmount()).isZero();
+        assertThat(result.getGift()).isPresent().get().
+                isEqualTo(new OrderItem("샴페인", 1));
     }
 }
