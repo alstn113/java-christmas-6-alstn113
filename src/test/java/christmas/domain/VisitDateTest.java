@@ -18,19 +18,6 @@ class VisitDateTest {
                 .isEqualTo(LocalDate.of(2023, 12, day));
     }
 
-    @Test
-    @DisplayName("날짜가 같은지 확인")
-    void isSameDate() {
-        LocalDate start = LocalDate.of(2023, 12, 1);
-        LocalDate end = LocalDate.of(2023, 12, 5);
-        LocalDate current = LocalDate.of(2023, 12, 6);
-        assertThat(isApplicable(current, start, end)).isTrue();
-    }
-
-    private boolean isApplicable(LocalDate currentDate, LocalDate startDate, LocalDate endDate) {
-        return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate);
-    }
-
     @Nested
     @DisplayName("예외 테스트")
     class ExceptionTest {
