@@ -2,6 +2,7 @@ package christmas.domain.discount;
 
 import christmas.domain.Category;
 import christmas.domain.Order;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
@@ -22,6 +23,7 @@ public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
     }
 
     private boolean isWeekend(LocalDate currentDate) {
-        return currentDate.getDayOfWeek().getValue() > 5;
+        DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+        return dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY;
     }
 }
