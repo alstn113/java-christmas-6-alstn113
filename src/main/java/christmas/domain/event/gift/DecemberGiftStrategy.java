@@ -21,10 +21,10 @@ public class DecemberGiftStrategy extends GiftStrategy {
 
     @Override
     public boolean isApplicable(LocalDate currentDate, Order order) {
-        return super.isApplicable(currentDate, order) && isConditionPriceSatisfied(order);
+        return super.isApplicable(currentDate, order) && isConditionSatisfied(order);
     }
 
-    private boolean isConditionPriceSatisfied(Order order) {
+    private boolean isConditionSatisfied(Order order) {
         return order.totalPrice() >= CONDITION_PRICE;
     }
 }
