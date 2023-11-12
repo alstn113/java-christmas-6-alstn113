@@ -16,7 +16,7 @@ public class Order {
 
     private void validate(List<OrderItem> orderItems) {
         validateMaxMenuQuantity(orderItems);
-        validteDulicateMenu(orderItems);
+        validateDuplicateMenu(orderItems);
         validateOrderNotOnlyDrink(orderItems);
     }
 
@@ -32,7 +32,7 @@ public class Order {
         }
     }
 
-    private void validteDulicateMenu(List<OrderItem> orderItems) {
+    private void validateDuplicateMenu(List<OrderItem> orderItems) {
         if (orderItems.stream().map(OrderItem::menuName).distinct().count() != orderItems.size()) {
             throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
         }
@@ -52,6 +52,13 @@ public class Order {
 
     private int totalQuantity(List<OrderItem> orderItems) {
         return orderItems.stream()
+                .mapToInt(OrderItem::quantity)
+                .sum();
+    }
+
+    public int getQuantityByCategory(Category category) {
+        return orderItems.stream()
+                .filter(orderItem -> orderItem.category() == category)
                 .mapToInt(OrderItem::quantity)
                 .sum();
     }

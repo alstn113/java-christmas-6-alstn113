@@ -10,10 +10,7 @@ public class WeekdayDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order) {
-        int desertQuantity = order.getOrderItems().stream()
-                .filter(orderItem -> orderItem.category() == Category.DESSERT)
-                .mapToInt(OrderItem::quantity)
-                .sum();
+        int desertQuantity = order.getQuantityByCategory(Category.DESSERT);
         return desertQuantity * DISCOUNT_PER_DESSERT;
     }
 

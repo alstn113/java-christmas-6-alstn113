@@ -10,10 +10,7 @@ public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order) {
-        int mainQuantity = order.getOrderItems().stream()
-                .filter(orderItem -> orderItem.category() == Category.MAIN)
-                .mapToInt(OrderItem::quantity)
-                .sum();
+        int mainQuantity = order.getQuantityByCategory(Category.MAIN);
         return mainQuantity * DISCOUNT_PER_MAIN;
     }
 
