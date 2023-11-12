@@ -1,4 +1,4 @@
-package christmas.domain.discount;
+package christmas.domain.event.discount;
 
 import christmas.domain.Order;
 import java.time.DayOfWeek;
@@ -10,12 +10,10 @@ public class SpecialDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
+        if (!isSpecialDay(currentDate)) {
+            return 0;
+        }
         return SPECIAL_DISCOUNT;
-    }
-
-    @Override
-    public boolean isApplicable(LocalDate currentDate) {
-        return super.isApplicable(currentDate) && isSpecialDay(currentDate);
     }
 
     private boolean isSpecialDay(LocalDate currentDate) {

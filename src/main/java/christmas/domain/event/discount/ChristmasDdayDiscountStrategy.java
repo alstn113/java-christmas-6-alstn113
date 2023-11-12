@@ -1,4 +1,4 @@
-package christmas.domain.discount;
+package christmas.domain.event.discount;
 
 import christmas.domain.Order;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ public class ChristmasDdayDiscountStrategy extends DiscountStrategy {
     private static final int DEFAULT_DISCOUNT = 1000;
     private static final int DISCOUNT_PER_DAY = 100;
 
-    protected ChristmasDdayDiscountStrategy() {
+    public ChristmasDdayDiscountStrategy() {
         super(EVENT_START_DATE, EVENT_END_DATE);
     }
 

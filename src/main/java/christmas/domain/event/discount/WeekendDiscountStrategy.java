@@ -1,4 +1,4 @@
-package christmas.domain.discount;
+package christmas.domain.event.discount;
 
 import christmas.domain.Category;
 import christmas.domain.Order;
@@ -10,13 +10,12 @@ public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
 
     @Override
     public int calculateDiscount(Order order, LocalDate currentDate) {
+        if (!isWeekend(currentDate)) {
+            return 0;
+        }
+
         int mainQuantity = order.getQuantityByCategory(Category.MAIN);
         return mainQuantity * DISCOUNT_PER_MAIN;
-    }
-
-    @Override
-    public boolean isApplicable(LocalDate currentDate) {
-        return super.isApplicable(currentDate) && isWeekend(currentDate);
     }
 
     private boolean isWeekend(LocalDate currentDate) {

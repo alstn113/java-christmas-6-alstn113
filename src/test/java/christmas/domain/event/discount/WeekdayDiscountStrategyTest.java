@@ -1,9 +1,10 @@
-package christmas.domain.discount;
+package christmas.domain.event.discount;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import christmas.domain.Order;
 import christmas.domain.OrderItem;
+import christmas.domain.event.discount.WeekdayDiscountStrategy;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
