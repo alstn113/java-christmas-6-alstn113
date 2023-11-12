@@ -12,31 +12,30 @@ import java.util.Map;
 
 public class OrderResult {
     private final Order order;
-    private final Map<Event, Integer> benefitsDetails;
+    private final Map<Event, Integer> benefitsDetails = new LinkedHashMap<>();
     private final List<OrderItem> giftMenus = new ArrayList<>();
     private int totalDiscountAmount = 0; // ex) 2000원
 
     public OrderResult(VisitDate visitDate, Order order, List<Event> events) {
         this.order = order;
-        this.benefitsDetails = applyEvents(visitDate, order, events);
+        applyEvents(visitDate, order, events);
     }
 
-    public Map<Event, Integer> applyEvents(VisitDate visitDate, Order order, List<Event> events) {
-        Map<Event, Integer> benefits = new LinkedHashMap<>();
+    public void applyEvents(VisitDate visitDate, Order order, List<Event> events) {
         for (Event event : events) {
             EventStrategy eventStrategy = event.getEventStrategy();
             if (!eventStrategy.isApplicable(visitDate.getDate(), order)) {
                 continue;
             }
+
             EventResult eventResult = eventStrategy.applyEvent(visitDate.getDate(), order);
             int discountAmount = eventResult.getDiscountAmount();
+            int totalGiftPrice = getTotalGiftPrice();
+
             totalDiscountAmount += discountAmount;
             eventResult.getGift().ifPresent(giftMenus::add);
-            int totalGiftPrice = getTotalGiftPrice();
-            benefits.put(event, -1 * (discountAmount + totalGiftPrice));
-
+            benefitsDetails.put(event, -1 * (discountAmount + totalGiftPrice));
         }
-        return benefits;
     }
 
     public Order getOrder() {
