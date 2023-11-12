@@ -4,11 +4,12 @@ import christmas.domain.Order;
 import christmas.domain.OrderItem;
 import christmas.domain.OrderResult;
 import christmas.domain.VisitDate;
-import christmas.exception.ErrorMesssage;
+import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 import christmas.service.EventPlannerService;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import christmas.view.util.InputUtil;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,11 +27,49 @@ public class EventPlannerController {
 
     public void run() {
         outputView.displayWelcomeMessage();
-
         VisitDate visitDate = readVisitDate();
         Order order = readOrder();
         OrderResult orderResult = eventPlannerService.getOrderResult(visitDate, order);
+        displayEventBenefitsPreview(orderResult);
+    }
 
+    private VisitDate readVisitDate() {
+        return InputUtil.retryOnException(() -> {
+            try {
+                int visitDate = inputView.readVisitDate();
+                return new VisitDate(visitDate);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidInputException(ErrorMessage.INVALID_VISIT_DATE);
+            }
+        }, true);
+    }
+
+    private Order readOrder() {
+        return InputUtil.retryOnException(() -> {
+            try {
+                String input = inputView.readOrder();
+                String[] menuAndCount = input.split(",", -1);
+                List<OrderItem> orderItems = Arrays.stream(menuAndCount)
+                        .map(String::trim)
+                        .map(this::parseMenuAndQuantity)
+                        .toList();
+                return new Order(orderItems);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
+            }
+        });
+    }
+
+    private OrderItem parseMenuAndQuantity(String input) {
+        String[] menuAndCount = input.split("-", -1);
+        if (menuAndCount.length != 2) {
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
+        }
+        return new OrderItem(menuAndCount[0], Integer.parseInt(menuAndCount[1]));
+    }
+
+
+    private void displayEventBenefitsPreview(OrderResult orderResult) {
         outputView.displayEventPreviewMessage();
         outputView.displayOrderDetails(orderResult.getOrder());
         outputView.displayTotalPriceBeforeDiscount(orderResult.getTotalPriceBeforeDiscount());
@@ -39,34 +78,5 @@ public class EventPlannerController {
         outputView.displayTotalBenefitAmount(orderResult.getTotalBenefitAmount());
         outputView.displayTotalPriceAfterDiscount(orderResult.getTotalPriceAfterDiscount());
         outputView.displayDecemberEventBadge(orderResult.getBadge());
-    }
-
-    private VisitDate readVisitDate() {
-        try {
-            String input = inputView.readVisitDate();
-            int visitDate = Integer.parseInt(input);
-            return new VisitDate(visitDate);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_VISIT_DATE);
-        }
-    }
-
-    private Order readOrder() {
-        try {
-            String input = inputView.readOrder();
-            String[] menuAndCount = input.split(",", -1);
-            List<OrderItem> orderItems = Arrays.stream(menuAndCount)
-                    .map(String::trim)
-                    .map(s -> s.split("-", -1))
-                    .map(s -> {
-                        if (s.length != 2) {
-                            throw new IllegalArgumentException();
-                        }
-                        return new OrderItem(s[0], Integer.parseInt(s[1]));
-                    }).toList();
-            return new Order(orderItems);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
-        }
     }
 }

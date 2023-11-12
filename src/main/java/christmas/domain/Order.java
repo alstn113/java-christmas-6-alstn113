@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.exception.ErrorMesssage;
+import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,19 +22,19 @@ public class Order {
 
     private void validateOrderNotOnlyDrink(List<OrderItem> orderItems) {
         if (allItemsAreDrinks(orderItems)) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 
     private void validateMaxMenuQuantity(List<OrderItem> orderItems) {
         if (totalQuantity(orderItems) > 20) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 
     private void validateDuplicateMenu(List<OrderItem> orderItems) {
         if (orderItems.stream().map(OrderItem::menuName).distinct().count() != orderItems.size()) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_ORDER);
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 

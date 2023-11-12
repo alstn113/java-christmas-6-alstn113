@@ -1,7 +1,7 @@
 package christmas.view;
 
 public interface InputView {
-    String readVisitDate();
+    int readVisitDate();
 
     String readOrder();
 }

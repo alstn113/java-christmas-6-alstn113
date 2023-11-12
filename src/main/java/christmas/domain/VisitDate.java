@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.exception.ErrorMesssage;
+import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ public class VisitDate {
         try {
             LocalDate.of(YEAR, MONTH, day);
         } catch (Exception e) {
-            throw new InvalidInputException(ErrorMesssage.INVALID_VISIT_DATE);
+            throw new InvalidInputException(ErrorMessage.INVALID_VISIT_DATE);
         }
     }
 
