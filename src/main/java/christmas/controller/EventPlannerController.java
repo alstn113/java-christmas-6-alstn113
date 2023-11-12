@@ -26,32 +26,19 @@ public class EventPlannerController {
 
     public void run() {
         outputView.displayWelcomeMessage();
+
         VisitDate visitDate = readVisitDate();
         Order order = readOrder();
-        outputView.displayEventPreviewMessage();
-
         OrderResult orderResult = eventPlannerService.getOrderResult(visitDate, order);
 
-        outputView.displayOrderDetails(order);
-        System.out.println(orderResult.getOrder().getOrderItems());
-
-        outputView.displayTotalPriceBeforeDiscount(order.totalPrice());
-        System.out.println(orderResult.getTotalPriceBeforeDiscount());
-
-        outputView.displayGiftMenu();
-        System.out.println(orderResult.getGiftMenuSummary());
-
-        outputView.displayBenefitsDetails();
-        System.out.println(orderResult.getBenefitsDetails().toString());
-
-        outputView.displayTotalBenefitAmount();
-        System.out.println(orderResult.getTotalBenefits());
-
-        outputView.displayTotalPriceAfterDiscount();
-        System.out.println(orderResult.getTotalPriceAfterDiscount());
-
-        outputView.displayDecemberEventBadge();
-        System.out.println(orderResult.getBadge());
+        outputView.displayEventPreviewMessage();
+        outputView.displayOrderDetails(orderResult.getOrder());
+        outputView.displayTotalPriceBeforeDiscount(orderResult.getTotalPriceBeforeDiscount());
+        outputView.displayGiftMenus(orderResult.getGiftMenus());
+        outputView.displayBenefitsDetails(orderResult.getBenefitsDetails());
+        outputView.displayTotalBenefitAmount(orderResult.getTotalBenefitAmount());
+        outputView.displayTotalPriceAfterDiscount(orderResult.getTotalPriceAfterDiscount());
+        outputView.displayDecemberEventBadge(orderResult.getBadge());
     }
 
     private VisitDate readVisitDate() {

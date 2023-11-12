@@ -1,6 +1,11 @@
 package christmas.view;
 
+import christmas.domain.Badge;
 import christmas.domain.Order;
+import christmas.domain.OrderItem;
+import christmas.domain.event.Event;
+import java.util.List;
+import java.util.Map;
 
 public interface OutputView {
     void displayWelcomeMessage();
@@ -11,13 +16,13 @@ public interface OutputView {
 
     void displayTotalPriceBeforeDiscount(int totalPrice);
 
-    void displayGiftMenu();
+    void displayGiftMenus(List<OrderItem> giftMenus);
 
-    void displayBenefitsDetails();
+    void displayBenefitsDetails(Map<Event, Integer> benefitsDetails);
 
-    void displayTotalBenefitAmount();
+    void displayTotalBenefitAmount(int totalBenefitAmount);
 
-    void displayTotalPriceAfterDiscount();
+    void displayTotalPriceAfterDiscount(int totalPriceAfterDiscount);
 
-    void displayDecemberEventBadge();
+    void displayDecemberEventBadge(Badge badge);
 }

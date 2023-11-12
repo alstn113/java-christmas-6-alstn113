@@ -1,8 +1,12 @@
 package christmas.view.console;
 
+import christmas.domain.Badge;
 import christmas.domain.Order;
 import christmas.domain.OrderItem;
+import christmas.domain.event.Event;
 import christmas.view.OutputView;
+import java.util.List;
+import java.util.Map;
 
 public class ConsoleOutputView implements OutputView {
     @Override
@@ -34,32 +38,54 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void displayGiftMenu() {
+    public void displayGiftMenus(List<OrderItem> giftMenus) {
         System.out.println();
         System.out.println("<증정 메뉴>");
+        if (giftMenus.isEmpty()) {
+            System.out.println("없음");
+            return;
+        }
+        for (OrderItem giftMenu : giftMenus) {
+            String menuName = giftMenu.menuName();
+            int quantity = giftMenu.quantity();
+            System.out.printf("%s %d개%n", menuName, quantity);
+        }
     }
 
     @Override
-    public void displayBenefitsDetails() {
+    public void displayBenefitsDetails(Map<Event, Integer> benefitsDetails) {
         System.out.println();
         System.out.println("<혜택 내역>");
+        if (benefitsDetails.isEmpty()) {
+            System.out.println("없음");
+            return;
+        }
+
+        for (Map.Entry<Event, Integer> entry : benefitsDetails.entrySet()) {
+            Event event = entry.getKey();
+            int benefitAmount = entry.getValue();
+            System.out.printf("%s: %,d원%n", event.getViewName(), benefitAmount);
+        }
     }
 
     @Override
-    public void displayTotalBenefitAmount() {
+    public void displayTotalBenefitAmount(int totalBenefitAmount) {
         System.out.println();
         System.out.println("<총혜택 금액>");
+        System.out.printf("%,d원%n", totalBenefitAmount);
     }
 
     @Override
-    public void displayTotalPriceAfterDiscount() {
+    public void displayTotalPriceAfterDiscount(int totalPriceAfterDiscount) {
         System.out.println();
         System.out.println("<할인 후 예상 결제 금액>");
+        System.out.printf("%,d원%n", totalPriceAfterDiscount);
     }
 
     @Override
-    public void displayDecemberEventBadge() {
+    public void displayDecemberEventBadge(Badge badge) {
         System.out.println();
         System.out.println("<12월 이벤트 배지>");
+        System.out.println(badge.getViewName());
     }
 }

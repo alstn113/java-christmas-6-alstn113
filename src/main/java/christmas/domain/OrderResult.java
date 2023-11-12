@@ -47,7 +47,7 @@ public class OrderResult {
         return order.totalPrice();
     }
 
-    public List<OrderItem> getGiftMenuSummary() {
+    public List<OrderItem> getGiftMenus() {
         return giftMenus;
     }
 
@@ -55,7 +55,7 @@ public class OrderResult {
         return benefitsDetails;
     }
 
-    public int getTotalBenefits() {
+    public int getTotalBenefitAmount() {
         int totalGiftPrice = giftMenus.stream()
                 .mapToInt(giftMenu -> giftMenu.quantity() * giftMenu.price())
                 .sum();
@@ -67,7 +67,7 @@ public class OrderResult {
     }
 
     public Badge getBadge() {
-        int totalBenefits = Math.abs(getTotalBenefits());
+        int totalBenefits = Math.abs(getTotalBenefitAmount());
         return Badge.getBadgeByCondition(totalBenefits);
     }
 }
