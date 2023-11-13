@@ -20,17 +20,14 @@ public class EventBenefits {
 
     public EventBenefits(VisitDate visitDate, Order order, EventGroup eventGroup) {
         List<Event> events = eventGroup.getEvents();
-        applyEvents(visitDate, order, events);
-    }
-
-    public void applyEvents(VisitDate visitDate, Order order, List<Event> events) {
         LocalDate date = visitDate.getDate();
-        events.stream()
-                .filter(event -> {
-                    EventStrategy eventStrategy = event.getEventStrategy();
-                    return eventStrategy.isApplicable(date, order);
-                })
-                .forEach(event -> applyEvent(date, order, event));
+        for (Event event : events) {
+            EventStrategy eventStrategy = event.getEventStrategy();
+            if (!eventStrategy.isApplicable(date, order)) {
+                continue;
+            }
+            applyEvent(date, order, event);
+        }
     }
 
     private void applyEvent(LocalDate date, Order order, Event event) {
