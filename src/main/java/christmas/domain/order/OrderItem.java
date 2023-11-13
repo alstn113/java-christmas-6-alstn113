@@ -10,7 +10,7 @@ public class OrderItem {
 
     public OrderItem(String menuName, int quantity) {
         validateQuantity(quantity);
-        this.menu = validateMenu(menuName);
+        this.menu = findMenuByName(menuName);
         this.quantity = quantity;
     }
 
@@ -20,7 +20,7 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    private Menu validateMenu(String menuName) {
+    private Menu findMenuByName(String menuName) {
         try {
             return Menu.findMenuByName(menuName);
         } catch (IllegalArgumentException e) {
