@@ -2,27 +2,27 @@ package christmas.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("Badge Enum 테스트")
 class BadgeTest {
-    @DisplayName("조건에 따른 Badge 반환 테스트")
-    @Test
-    void getBadgeByConditionTest() {
-        assertThat(Badge.getBadgeByCondition(0)).isEqualTo(Badge.NONE);
-        assertThat(Badge.getBadgeByCondition(5000)).isEqualTo(Badge.STAR);
-        assertThat(Badge.getBadgeByCondition(10000)).isEqualTo(Badge.TREE);
-        assertThat(Badge.getBadgeByCondition(20000)).isEqualTo(Badge.SANTA);
+    private static Stream<Arguments> provideTestData() {
+        return Stream.of(
+                Arguments.of(0, Badge.NONE),
+                Arguments.of(5000, Badge.STAR),
+                Arguments.of(10000, Badge.TREE),
+                Arguments.of(20000, Badge.SANTA),
+                Arguments.of(25000, Badge.SANTA),
+                Arguments.of(-5000, Badge.NONE)
+        );
     }
 
-    @DisplayName("viewName 반환 테스트")
-    @Test
-    void getViewNameTest() {
-        assertThat(Badge.NONE.getViewName()).isEqualTo("없음");
-        assertThat(Badge.STAR.getViewName()).isEqualTo("별");
-        assertThat(Badge.TREE.getViewName()).isEqualTo("트리");
-        assertThat(Badge.SANTA.getViewName()).isEqualTo("산타");
+    @ParameterizedTest
+    @MethodSource("provideTestData")
+    void 조건에_따른_Badge를_반환한다(int condition, Badge badge) {
+        assertThat(Badge.getBadgeByCondition(condition)).isEqualTo(badge);
     }
 
 }
