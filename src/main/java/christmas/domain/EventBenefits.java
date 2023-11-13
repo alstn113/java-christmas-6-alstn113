@@ -1,6 +1,7 @@
 package christmas.domain;
 
 import christmas.domain.event.Event;
+import christmas.domain.event.EventGroup;
 import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
 import christmas.domain.order.Order;
@@ -17,7 +18,8 @@ public class EventBenefits {
     private final List<OrderItem> giftMenus = new ArrayList<>();
     private int totalDiscountAmount = 0; // ex) 2000원
 
-    public EventBenefits(VisitDate visitDate, Order order, List<Event> events) {
+    public EventBenefits(VisitDate visitDate, Order order, EventGroup eventGroup) {
+        List<Event> events = eventGroup.getEvents();
         applyEvents(visitDate, order, events);
     }
 
