@@ -23,19 +23,19 @@ public class InputUtil {
         }
     }
 
-    public static List<OrderItem> parseOrderItems(String input) {
+    public static List<OrderItem> parseInputToOrderItems(String input) {
         try {
             String[] orderItems = input.split(COMMA_DELIMITER, -1);
             return Arrays.stream(orderItems)
                     .map(String::trim)
-                    .map(InputUtil::parseOrderItem)
+                    .map(InputUtil::parseInputToOrderItem)
                     .toList();
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }
 
-    private static OrderItem parseOrderItem(String item) {
+    private static OrderItem parseInputToOrderItem(String item) {
         String[] menuAndQuantity = item.split(DASH_DELIMITER, -1);
         if (menuAndQuantity.length != 2) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);

@@ -45,7 +45,7 @@ public class EventPlannerController {
     private Order readOrder() {
         return InputUtil.retryOnException(() -> {
             String orderInput = inputView.readOrder();
-            List<OrderItem> orderItems = InputUtil.parseOrderItems(orderInput);
+            List<OrderItem> orderItems = InputUtil.parseInputToOrderItems(orderInput);
             return new Order(orderItems);
         });
     }
