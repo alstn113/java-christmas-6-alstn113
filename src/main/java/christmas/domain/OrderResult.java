@@ -30,10 +30,9 @@ public class OrderResult {
 
             EventResult eventResult = eventStrategy.applyEventIfApplicable(visitDate.getDate(), order);
             int discountAmount = eventResult.getDiscountAmount();
-            int totalGiftPrice = getTotalGiftPrice();
-
             totalDiscountAmount += discountAmount;
             eventResult.getGift().ifPresent(giftMenus::add);
+            int totalGiftPrice = getTotalGiftPrice();
             benefitsDetails.put(event, -1 * (discountAmount + totalGiftPrice));
         }
     }
