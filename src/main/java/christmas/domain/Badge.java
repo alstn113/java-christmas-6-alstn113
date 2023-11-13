@@ -1,5 +1,7 @@
 package christmas.domain;
 
+import java.util.Arrays;
+
 public enum Badge {
     SANTA(20000, "산타"),
     TREE(10000, "트리"),
@@ -15,12 +17,10 @@ public enum Badge {
     }
 
     public static Badge getBadgeByCondition(int totalBenefits) {
-        for (Badge badge : Badge.values()) {
-            if (badge.condition <= totalBenefits) {
-                return badge;
-            }
-        }
-        return NONE;
+        return Arrays.stream(Badge.values())
+                .filter(badge -> badge.condition <= totalBenefits)
+                .findFirst()
+                .orElse(NONE);
     }
 
     public String getViewName() {
