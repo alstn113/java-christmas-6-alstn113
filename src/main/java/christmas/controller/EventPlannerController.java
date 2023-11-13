@@ -5,12 +5,9 @@ import christmas.domain.VisitDate;
 import christmas.domain.event.Event;
 import christmas.domain.order.Order;
 import christmas.domain.order.OrderItem;
-import christmas.exception.ErrorMessage;
-import christmas.exception.InvalidInputException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import christmas.view.util.InputUtil;
-import java.util.Arrays;
 import java.util.List;
 
 public class EventPlannerController {
@@ -40,44 +37,17 @@ public class EventPlannerController {
 
     private VisitDate readVisitDate() {
         return InputUtil.retryOnException(() -> {
-            try {
-                int visitDateInput = inputView.readVisitDate();
-                return new VisitDate(visitDateInput);
-            } catch (IllegalArgumentException e) {
-                throw new InvalidInputException(ErrorMessage.INVALID_VISIT_DATE);
-            }
+            int visitDateInput = inputView.readVisitDate();
+            return new VisitDate(visitDateInput);
         }, true);
     }
 
     private Order readOrder() {
         return InputUtil.retryOnException(() -> {
-            try {
-                String orderInput = inputView.readOrder();
-                List<OrderItem> orderItems = parseToOrderItems(orderInput);
-                return new Order(orderItems);
-            } catch (IllegalArgumentException e) {
-                throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
-            }
+            String orderInput = inputView.readOrder();
+            List<OrderItem> orderItems = InputUtil.parseOrderItems(orderInput);
+            return new Order(orderItems);
         });
-    }
-
-    private List<OrderItem> parseToOrderItems(String input) {
-        String[] menuAndCount = input.split(",", -1);
-        return Arrays.stream(menuAndCount)
-                .map(String::trim)
-                .map(this::parseToMenuAndQuantity)
-                .toList();
-    }
-
-
-    private OrderItem parseToMenuAndQuantity(String input) {
-        String[] menuAndCount = input.split("-", -1);
-        if (menuAndCount.length != 2) {
-            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
-        }
-        String menu = menuAndCount[0];
-        int quantity = Integer.parseInt(menuAndCount[1]);
-        return new OrderItem(menu, quantity);
     }
 
     private void displayWelcomeMessage() {
@@ -85,16 +55,6 @@ public class EventPlannerController {
     }
 
     private void displayEventBenefitsPreview(Order order, EventBenefits eventBenefits) {
-        int totalPriceBeforeDiscount = order.totalPrice();
-        int totalPriceAfterDiscount = totalPriceBeforeDiscount - eventBenefits.getTotalDiscountAmount();
-
-        outputView.displayEventBenefitsPreviewMessage();
-        outputView.displayOrderDetails(order.getOrderItems());
-        outputView.displayTotalPriceBeforeDiscount(order.totalPrice());
-        outputView.displayGiftMenus(eventBenefits.getGiftMenus());
-        outputView.displayBenefitsDetails(eventBenefits.getBenefitsDetails());
-        outputView.displayTotalBenefitAmount(eventBenefits.getTotalBenefitAmount());
-        outputView.displayTotalPriceAfterDiscount(totalPriceAfterDiscount);
-        outputView.displayDecemberEventBadge(eventBenefits.getBadge());
+        outputView.displayEventBenefitsPreview(order, eventBenefits);
     }
 }

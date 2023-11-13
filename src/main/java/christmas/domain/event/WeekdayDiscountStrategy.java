@@ -17,11 +17,15 @@ public class WeekdayDiscountStrategy extends DecemberEventStrategy {
 
     @Override
     public boolean isApplicable(LocalDate currentDate, Order order) {
-        return super.isApplicable(currentDate, order) && isWeekday(currentDate);
+        return super.isApplicable(currentDate, order) && isWeekday(currentDate) && isDesertOrdered(order);
     }
 
     private boolean isWeekday(LocalDate currentDate) {
         DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
         return dayOfWeek != DayOfWeek.FRIDAY && dayOfWeek != DayOfWeek.SATURDAY;
+    }
+
+    private boolean isDesertOrdered(Order order) {
+        return order.getQuantityByCategory(Category.DESSERT) > 0;
     }
 }
