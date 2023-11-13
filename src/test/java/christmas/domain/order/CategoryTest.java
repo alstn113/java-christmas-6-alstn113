@@ -2,8 +2,6 @@ package christmas.domain.order;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import christmas.domain.order.Category;
-import christmas.domain.order.Menu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

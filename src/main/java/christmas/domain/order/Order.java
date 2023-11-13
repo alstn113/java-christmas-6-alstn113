@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class Order {
-    private final List<OrderItem> orderItems;
     private static final int MAX_QUANTITY = 20;
+    private final List<OrderItem> orderItems;
 
     public Order(List<OrderItem> orderItems) {
         validate(orderItems);

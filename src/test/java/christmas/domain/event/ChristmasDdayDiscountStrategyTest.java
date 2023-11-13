@@ -2,7 +2,6 @@ package christmas.domain.event;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.event.ChristmasDdayDiscountStrategy;
 import christmas.domain.order.Order;
 import christmas.domain.order.OrderItem;
 import java.time.LocalDate;

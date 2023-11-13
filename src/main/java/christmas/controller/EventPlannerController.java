@@ -2,7 +2,6 @@ package christmas.controller;
 
 import christmas.domain.EventBenefits;
 import christmas.domain.VisitDate;
-import christmas.domain.event.Event;
 import christmas.domain.event.EventGroup;
 import christmas.domain.order.Order;
 import christmas.domain.order.OrderItem;
