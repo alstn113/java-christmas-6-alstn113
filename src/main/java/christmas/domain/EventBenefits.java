@@ -5,6 +5,7 @@ import christmas.domain.event.EventResult;
 import christmas.domain.event.EventStrategy;
 import christmas.domain.order.Order;
 import christmas.domain.order.OrderItem;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,25 +22,30 @@ public class EventBenefits {
     }
 
     public void applyEvents(VisitDate visitDate, Order order, List<Event> events) {
-        for (Event event : events) {
-            EventStrategy eventStrategy = event.getEventStrategy();
-            if (!eventStrategy.isApplicable(visitDate.getDate(), order)) {
-                continue;
-            }
+        LocalDate date = visitDate.getDate();
+        events.stream()
+                .filter(event -> {
+                    EventStrategy eventStrategy = event.getEventStrategy();
+                    return eventStrategy.isApplicable(date, order);
+                })
+                .forEach(event -> applyEvent(date, order, event));
+    }
 
-            EventResult eventResult = eventStrategy.applyEventIfApplicable(visitDate.getDate(), order);
-            int discountAmount = eventResult.getDiscountAmount();
-            Optional<OrderItem> gift = eventResult.getGift();
+    private void applyEvent(LocalDate date, Order order, Event event) {
+        EventStrategy eventStrategy = event.getEventStrategy();
+        EventResult eventResult = eventStrategy.applyEventIfApplicable(date, order);
+        int discountAmount = eventResult.getDiscountAmount();
+        Optional<OrderItem> gift = eventResult.getGift();
 
-            totalDiscountAmount += discountAmount;
-            int totalGiftPrice = 0;
-            if (gift.isPresent()) {
-                OrderItem giftMenu = gift.get();
-                giftMenus.add(giftMenu);
-                totalGiftPrice = giftMenu.getTotalPrice();
-            }
+        totalDiscountAmount += discountAmount;
+        if (gift.isPresent()) {
+            OrderItem giftMenu = gift.get();
+            giftMenus.add(giftMenu);
+            int totalGiftPrice = giftMenu.getTotalPrice();
             benefitsDetails.put(event, -1 * (discountAmount + totalGiftPrice));
+            return;
         }
+        benefitsDetails.put(event, -1 * discountAmount);
     }
 
     public List<OrderItem> getGiftMenus() {
