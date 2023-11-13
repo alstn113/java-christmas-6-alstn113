@@ -52,7 +52,7 @@ public class EventPlannerController {
         return InputUtil.retryOnException(() -> {
             try {
                 String orderInput = inputView.readOrder();
-                List<OrderItem> orderItems = parseOrderItems(orderInput);
+                List<OrderItem> orderItems = parseToOrderItems(orderInput);
                 return new Order(orderItems);
             } catch (IllegalArgumentException e) {
                 throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
@@ -60,16 +60,16 @@ public class EventPlannerController {
         });
     }
 
-    private List<OrderItem> parseOrderItems(String input) {
+    private List<OrderItem> parseToOrderItems(String input) {
         String[] menuAndCount = input.split(",", -1);
         return Arrays.stream(menuAndCount)
                 .map(String::trim)
-                .map(this::parseMenuAndQuantity)
+                .map(this::parseToMenuAndQuantity)
                 .toList();
     }
 
 
-    private OrderItem parseMenuAndQuantity(String input) {
+    private OrderItem parseToMenuAndQuantity(String input) {
         String[] menuAndCount = input.split("-", -1);
         if (menuAndCount.length != 2) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
