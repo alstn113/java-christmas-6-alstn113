@@ -11,14 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class OrderResult {
-    private final Order order;
+public class EventBenefits {
     private final Map<Event, Integer> benefitsDetails = new LinkedHashMap<>();
     private final List<OrderItem> giftMenus = new ArrayList<>();
     private int totalDiscountAmount = 0; // ex) 2000원
 
-    public OrderResult(VisitDate visitDate, Order order, List<Event> events) {
-        this.order = order;
+    public EventBenefits(VisitDate visitDate, Order order, List<Event> events) {
         applyEvents(visitDate, order, events);
     }
 
@@ -44,14 +42,6 @@ public class OrderResult {
         }
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public int getTotalPriceBeforeDiscount() {
-        return order.totalPrice();
-    }
-
     public List<OrderItem> getGiftMenus() {
         return giftMenus;
     }
@@ -71,8 +61,8 @@ public class OrderResult {
                 .sum();
     }
 
-    public int getTotalPriceAfterDiscount() {
-        return getTotalPriceBeforeDiscount() - totalDiscountAmount;
+    public int getTotalDiscountAmount() {
+        return totalDiscountAmount;
     }
 
     public Badge getBadge() {

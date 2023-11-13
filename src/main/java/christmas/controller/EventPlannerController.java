@@ -1,6 +1,6 @@
 package christmas.controller;
 
-import christmas.domain.OrderResult;
+import christmas.domain.EventBenefits;
 import christmas.domain.VisitDate;
 import christmas.domain.event.Event;
 import christmas.domain.order.Order;
@@ -33,8 +33,9 @@ public class EventPlannerController {
         displayWelcomeMessage();
         VisitDate visitDate = readVisitDate();
         Order order = readOrder();
-        OrderResult orderResult = new OrderResult(visitDate, order, EVENTS);
-        displayEventBenefitsPreview(orderResult);
+        EventBenefits eventBenefits = new EventBenefits(visitDate, order, EVENTS);
+        displayEventBenefitsPreview(order, eventBenefits);
+
     }
 
     private VisitDate readVisitDate() {
@@ -83,7 +84,17 @@ public class EventPlannerController {
         outputView.displayWelcomeMessage();
     }
 
-    private void displayEventBenefitsPreview(OrderResult orderResult) {
-        outputView.displayEventBenefitsPreview(orderResult);
+    private void displayEventBenefitsPreview(Order order, EventBenefits eventBenefits) {
+        int totalPriceBeforeDiscount = order.totalPrice();
+        int totalPriceAfterDiscount = totalPriceBeforeDiscount - eventBenefits.getTotalDiscountAmount();
+
+        outputView.displayEventBenefitsPreviewMessage();
+        outputView.displayOrderDetails(order.getOrderItems());
+        outputView.displayTotalPriceBeforeDiscount(order.totalPrice());
+        outputView.displayGiftMenus(eventBenefits.getGiftMenus());
+        outputView.displayBenefitsDetails(eventBenefits.getBenefitsDetails());
+        outputView.displayTotalBenefitAmount(eventBenefits.getTotalBenefitAmount());
+        outputView.displayTotalPriceAfterDiscount(totalPriceAfterDiscount);
+        outputView.displayDecemberEventBadge(eventBenefits.getBadge());
     }
 }
