@@ -3,9 +3,6 @@ package christmas.domain.order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import christmas.domain.order.Category;
-import christmas.domain.order.Menu;
-import christmas.domain.order.OrderItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,7 +20,7 @@ class OrderItemTest {
     @Test
     void testCategory() {
         OrderItem orderItem = new OrderItem("타파스", 1);
-        assertThat(orderItem.getCategory()).isEqualTo(Category.APPETIZER);
+        assertThat(orderItem.isSameCategory(Category.APPETIZER)).isTrue();
     }
 
     @DisplayName("menu 메서드는 주문 항목의 메뉴를 반환한다.")

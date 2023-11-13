@@ -37,15 +37,15 @@ public class OrderItem {
         return menu.getPrice() * quantity;
     }
 
-    public Category getCategory() {
-        return Category.from(menu);
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public boolean isSameCategory(Category category) {
+        return category == Category.from(menu);
     }
 }

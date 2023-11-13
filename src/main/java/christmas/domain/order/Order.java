@@ -46,7 +46,7 @@ public class Order {
 
     private boolean allItemsAreDrinks(List<OrderItem> orderItems) {
         return orderItems.stream()
-                .allMatch(orderItem -> orderItem.getCategory() == Category.DRINK);
+                .allMatch(orderItem -> orderItem.isSameCategory(Category.DRINK));
     }
 
 
@@ -58,7 +58,7 @@ public class Order {
 
     public int getQuantityByCategory(Category category) {
         return orderItems.stream()
-                .filter(orderItem -> orderItem.getCategory() == category)
+                .filter(orderItem -> orderItem.isSameCategory(category))
                 .mapToInt(OrderItem::getQuantity)
                 .sum();
     }

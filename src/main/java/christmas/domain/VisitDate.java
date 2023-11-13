@@ -10,13 +10,12 @@ public class VisitDate {
     private final LocalDate date;
 
     public VisitDate(int day) {
-        validateVisitDate(day);
-        this.date = LocalDate.of(YEAR, MONTH, day);
+        this.date = createDate(day);
     }
 
-    private void validateVisitDate(int day) {
+    private LocalDate createDate(int day) {
         try {
-            LocalDate.of(YEAR, MONTH, day);
+            return LocalDate.of(YEAR, MONTH, day);
         } catch (Exception e) {
             throw new InvalidInputException(ErrorMessage.INVALID_VISIT_DATE);
         }
