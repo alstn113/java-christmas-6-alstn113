@@ -2,22 +2,15 @@ package christmas.domain.order;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
-@DisplayName("Category Enum 테스트")
 class CategoryTest {
-
-    @Test
-    void testGetCategoryFromMenu() {
-        Category appetizerCategory = Category.from(Menu.MUSHROOM_SOUP);
-        Category mainCategory = Category.from(Menu.SEAFOOD_PASTA);
-        Category dessertCategory = Category.from(Menu.ICE_CREAM);
-        Category drinkCategory = Category.from(Menu.ZERO_COLA);
-
-        assertThat(appetizerCategory).isEqualTo(Category.APPETIZER);
-        assertThat(mainCategory).isEqualTo(Category.MAIN);
-        assertThat(dessertCategory).isEqualTo(Category.DESSERT);
-        assertThat(drinkCategory).isEqualTo(Category.DRINK);
+    @ParameterizedTest
+    @EnumSource(Category.class)
+    void from메서드는_메뉴를_받아서_메뉴의_카테고리를_반환한다(Category category) {
+        for (Menu menu : category.getMenus()) {
+            assertThat(Category.from(menu)).isEqualTo(category);
+        }
     }
 }

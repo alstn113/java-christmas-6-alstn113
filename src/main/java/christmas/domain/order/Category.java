@@ -44,4 +44,8 @@ public enum Category {
         return Arrays.stream(from.menus)
                 .anyMatch(menu -> menu == target);
     }
+
+    public Menu[] getMenus() {
+        return menus;
+    }
 }
