@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class OrderResult {
     private final Order order;
@@ -30,9 +31,15 @@ public class OrderResult {
 
             EventResult eventResult = eventStrategy.applyEventIfApplicable(visitDate.getDate(), order);
             int discountAmount = eventResult.getDiscountAmount();
+            Optional<OrderItem> gift = eventResult.getGift();
+
             totalDiscountAmount += discountAmount;
-            eventResult.getGift().ifPresent(giftMenus::add);
-            int totalGiftPrice = getTotalGiftPrice();
+            int totalGiftPrice = 0;
+            if (gift.isPresent()) {
+                OrderItem giftMenu = gift.get();
+                giftMenus.add(giftMenu);
+                totalGiftPrice = giftMenu.getTotalPrice();
+            }
             benefitsDetails.put(event, -1 * (discountAmount + totalGiftPrice));
         }
     }
