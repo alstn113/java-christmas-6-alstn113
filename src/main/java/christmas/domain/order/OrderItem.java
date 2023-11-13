@@ -4,6 +4,7 @@ import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 
 public class OrderItem {
+    private static final int MIN_QUANTITY = 1;
     private final Menu menu;
     private final int quantity;
 
@@ -28,7 +29,7 @@ public class OrderItem {
     }
 
     private void validateQuantity(int quantity) {
-        if (quantity < 1) {
+        if (quantity < MIN_QUANTITY) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }

@@ -28,7 +28,7 @@ public class OrderResult {
                 continue;
             }
 
-            EventResult eventResult = eventStrategy.applyEvent(visitDate.getDate(), order);
+            EventResult eventResult = eventStrategy.applyEventIfApplicable(visitDate.getDate(), order);
             int discountAmount = eventResult.getDiscountAmount();
             int totalGiftPrice = getTotalGiftPrice();
 

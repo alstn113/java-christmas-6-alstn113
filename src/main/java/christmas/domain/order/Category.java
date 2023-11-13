@@ -34,11 +34,14 @@ public enum Category {
     }
 
     public static Category from(Menu menu) {
-        for (Category category : values()) {
-            if (Arrays.asList(category.menus).contains(menu)) {
-                return category;
-            }
-        }
-        return NONE;
+        return Arrays.stream(values())
+                .filter(category -> hasMenu(category, menu))
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    private static boolean hasMenu(Category from, Menu target) {
+        return Arrays.stream(from.menus)
+                .anyMatch(menu -> menu == target);
     }
 }

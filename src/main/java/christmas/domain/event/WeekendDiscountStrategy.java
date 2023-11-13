@@ -1,16 +1,15 @@
-package christmas.domain.event.discount;
+package christmas.domain.event;
 
 import christmas.domain.order.Category;
 import christmas.domain.order.Order;
-import christmas.domain.event.EventResult;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class WeekendDiscountStrategy extends DecemberDiscountStrategy {
+public class WeekendDiscountStrategy extends DecemberEventStrategy {
     private static final int DISCOUNT_PER_MAIN = 2023;
 
     @Override
-    public EventResult applyDiscount(LocalDate currentDate, Order order) {
+    public EventResult applyEvent(LocalDate currentDate, Order order) {
         int mainQuantity = order.getQuantityByCategory(Category.MAIN);
         int discountAmount = mainQuantity * DISCOUNT_PER_MAIN;
         return new EventResult(discountAmount, null);

@@ -1,10 +1,9 @@
-package christmas.domain.event.discount;
+package christmas.domain.event;
 
 import christmas.domain.order.Order;
-import christmas.domain.event.EventResult;
 import java.time.LocalDate;
 
-public class ChristmasDdayDiscountStrategy extends DiscountStrategy {
+public class ChristmasDdayDiscountStrategy extends EventStrategy {
     private static final LocalDate EVENT_START_DATE = LocalDate.of(2023, 12, 1);
     private static final LocalDate EVENT_END_DATE = LocalDate.of(2023, 12, 25);
     private static final int DEFAULT_DISCOUNT = 1000;
@@ -15,7 +14,7 @@ public class ChristmasDdayDiscountStrategy extends DiscountStrategy {
     }
 
     @Override
-    public EventResult applyDiscount(LocalDate currentDate, Order order) {
+    public EventResult applyEvent(LocalDate currentDate, Order order) {
         int daysFromEventStart = EVENT_START_DATE.until(currentDate).getDays();
         int discountAmount = DEFAULT_DISCOUNT + DISCOUNT_PER_DAY * daysFromEventStart;
         return new EventResult(discountAmount, null);

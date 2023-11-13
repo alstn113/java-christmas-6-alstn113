@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Order {
     private final List<OrderItem> orderItems;
+    private static final int MAX_QUANTITY = 20;
 
     public Order(List<OrderItem> orderItems) {
         validate(orderItems);
@@ -27,7 +28,7 @@ public class Order {
     }
 
     private void validateMaxMenuQuantity(List<OrderItem> orderItems) {
-        if (totalQuantity(orderItems) > 20) {
+        if (totalQuantity(orderItems) > MAX_QUANTITY) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
     }

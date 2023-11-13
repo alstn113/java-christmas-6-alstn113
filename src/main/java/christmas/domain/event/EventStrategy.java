@@ -4,7 +4,7 @@ import christmas.domain.order.Order;
 import java.time.LocalDate;
 
 public abstract class EventStrategy {
-    private static final int CONDITION_PRICE = 10_000;
+    private static final int MINIMUM_ORDER_PRICE_FOR_EVENT = 10_000;
     private final LocalDate startDate;
     private final LocalDate endDate;
 
@@ -13,14 +13,21 @@ public abstract class EventStrategy {
         this.endDate = endDate;
     }
 
-    public abstract EventResult applyEvent(LocalDate currentDate, Order order);
+    public EventResult applyEventIfApplicable(LocalDate currentDate, Order order) {
+        if (isApplicable(currentDate, order)) {
+            return applyEvent(currentDate, order);
+        }
+        return EventResult.empty();
+    }
 
     public boolean isApplicable(LocalDate currentDate, Order order) {
         return isInProgress(currentDate) && isTotalPriceOverCondition(order);
     }
 
+    protected abstract EventResult applyEvent(LocalDate currentDate, Order order);
+
     private boolean isTotalPriceOverCondition(Order order) {
-        return order.totalPrice() >= CONDITION_PRICE;
+        return order.totalPrice() >= MINIMUM_ORDER_PRICE_FOR_EVENT;
     }
 
     private boolean isInProgress(LocalDate currentDate) {
