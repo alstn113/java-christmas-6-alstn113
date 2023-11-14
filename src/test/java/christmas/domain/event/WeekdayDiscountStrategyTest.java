@@ -7,10 +7,11 @@ import christmas.domain.order.OrderItem;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@DisplayName("WeekdayDiscountStrategy 클래스")
 class WeekdayDiscountStrategyTest {
 
     private static WeekdayDiscountStrategy strategy;
@@ -18,50 +19,62 @@ class WeekdayDiscountStrategyTest {
 
     @BeforeAll
     static void setUp() {
-        strategy = new WeekdayDiscountStrategy();
         List<OrderItem> orderItems = List.of(
                 new OrderItem("티본스테이크", 2),
                 new OrderItem("초코케이크", 5),
                 new OrderItem("아이스크림", 3),
                 new OrderItem("제로콜라", 3)
         );
+
+        strategy = new WeekdayDiscountStrategy();
         order = new Order(orderItems);
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {4, 7, 13, 21, 26})
+    void applyEventIfApplicable메서드는_평일일_경우_디저트_개수당_2023원을_할인한다(int day) {
+        LocalDate currentDate = LocalDate.of(2023, 12, day);
 
-    @Test
-    @DisplayName("12월 1일 ~ 12월 31일이 아닌 경우 0을 반환한다.")
-    void applyEventIfApplicableTest1() {
-        LocalDate date1 = LocalDate.of(2023, 11, 30);
-        LocalDate date2 = LocalDate.of(2024, 1, 1);
+        final EventResult result = strategy.applyEventIfApplicable(currentDate, order);
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isZero();
+        assertThat(result.getDiscountAmount()).isEqualTo(2023 * 8);
     }
 
-    @Test
-    @DisplayName("12월 1일 ~ 12월 31일이고, 주말인 경우(금요일, 토요일) 0을 반환한다.")
-    void applyEventIfApplicableTest2() {
-        LocalDate date1 = LocalDate.of(2023, 12, 1); // 금요일
-        LocalDate date2 = LocalDate.of(2023, 12, 8); // 금요일
-        LocalDate date3 = LocalDate.of(2023, 12, 16); // 토요일
-        LocalDate date4 = LocalDate.of(2023, 12, 30); // 토요일
+    @Nested
+    class isApplicable메서드_테스트 {
+        @Test
+        void 현재_날짜가_12월_1일_이상_12월_31일_이하가_아닌_경우_false를_리턴한다() {
+            LocalDate beforeEventDate = LocalDate.of(2023, 11, 30); // 12월 1일 미만
+            LocalDate afterEventDate = LocalDate.of(2024, 1, 1); // 12월 31일 초과
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date3, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date4, order).getDiscountAmount()).isZero();
-    }
+            final boolean beforeEventResult = strategy.isApplicable(beforeEventDate, order);
+            final boolean afterEventResult = strategy.isApplicable(afterEventDate, order);
 
-    @Test
-    @DisplayName("12월 1일 ~ 12월 31일이고, 주말이 아닌 경우 디저트 개수당 2023원을 할인한다.")
-    void applyEventIfApplicableTest3() {
-        LocalDate date1 = LocalDate.of(2023, 12, 5); // 화요일
-        LocalDate date2 = LocalDate.of(2023, 12, 18); // 월요일
-        LocalDate date3 = LocalDate.of(2023, 12, 28); // 목요일
+            assertThat(beforeEventResult).isFalse();
+            assertThat(afterEventResult).isFalse();
+        }
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isEqualTo(16184);
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isEqualTo(16184);
-        assertThat(strategy.applyEventIfApplicable(date3, order).getDiscountAmount()).isEqualTo(16184);
+        @ParameterizedTest
+        @ValueSource(ints = {1, 9, 15, 23, 29})
+        void 평일이_아닐_경우_false를_리턴한다(int day) {
+            LocalDate currentDate = LocalDate.of(2023, 12, day);
+
+            final boolean result = strategy.isApplicable(currentDate, order);
+
+            assertThat(result).isFalse();
+        }
+
+        @Test
+        void 디저트의_개수가_0개일_경우_false를_리턴한다() {
+            LocalDate currentDate = LocalDate.of(2023, 12, 5); // 화요일
+            Order order = new Order(List.of(
+                    new OrderItem("티본스테이크", 2),
+                    new OrderItem("제로콜라", 3)
+            ));
+
+            final boolean result = strategy.isApplicable(currentDate, order);
+
+            assertThat(result).isFalse();
+        }
     }
 }
