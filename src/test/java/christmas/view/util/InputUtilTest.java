@@ -23,13 +23,13 @@ class InputUtilTest {
             List<OrderItem> result = InputUtil.parseInputToOrderItems(input);
 
             assertThat(result).hasSize(4);
-            List<String> menuNames = List.of("티본스테이크", "바비큐립", "초코케이크", "제로콜라");
-            List<Integer> quantities = List.of(1, 1, 2, 1);
 
-            for (int i = 0; i < result.size(); i++) {
-                assertThat(result.get(i).getMenu().getViewName()).isEqualTo(menuNames.get(i));
-                assertThat(result.get(i).getQuantity()).isEqualTo(quantities.get(i));
-            }
+            assertThat(result).isEqualTo(List.of(
+                    new OrderItem("티본스테이크", 1),
+                    new OrderItem("바비큐립", 1),
+                    new OrderItem("초코케이크", 2),
+                    new OrderItem("제로콜라", 1)
+            ));
         }
 
         @ParameterizedTest

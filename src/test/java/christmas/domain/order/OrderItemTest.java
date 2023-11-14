@@ -26,8 +26,7 @@ class OrderItemTest {
     @Test
     void getMenu메서드는_주문_항목의_메뉴를_반환한다() {
         OrderItem orderItem = new OrderItem("레드와인", 1);
-        assertThat(orderItem.getMenu()).extracting(Menu::getViewName, Menu::getPrice)
-                .containsExactly("레드와인", 60000);
+        assertThat(orderItem.getMenu()).isEqualTo(Menu.RED_WINE);
     }
 
     @Nested

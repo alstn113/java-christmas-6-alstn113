@@ -17,7 +17,6 @@ public class WeekendDiscountStrategy extends DecemberEventStrategy {
 
     @Override
     public boolean isApplicable(LocalDate currentDate, Order order) {
-        System.out.println(isMainOrdered(order));
         return super.isApplicable(currentDate, order) && isWeekend(currentDate) && isMainOrdered(order);
     }
 

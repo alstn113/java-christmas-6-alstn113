@@ -14,11 +14,7 @@ class EventResultTest {
         assertThat(result.getDiscountAmount()).isEqualTo(1000);
         assertThat(result.getGift())
                 .isPresent()
-                .get()
-                .satisfies(gift -> {
-                    assertThat(gift.getMenu().getViewName()).isEqualTo("샴페인");
-                    assertThat(gift.getQuantity()).isEqualTo(1);
-                });
+                .get().isEqualTo(new OrderItem("샴페인", 1));
     }
 
     @Test

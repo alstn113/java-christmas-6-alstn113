@@ -2,6 +2,7 @@ package christmas.domain.order;
 
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
+import java.util.Objects;
 
 public class OrderItem {
     private static final int MIN_QUANTITY = 1;
@@ -48,5 +49,22 @@ public class OrderItem {
 
     public boolean isSameCategory(Category category) {
         return category == Category.from(menu);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        OrderItem orderItem = (OrderItem) o;
+        return quantity == orderItem.quantity && Objects.equals(menu, orderItem.menu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(menu, quantity);
     }
 }
