@@ -35,8 +35,8 @@ public class InputUtil {
         }
     }
 
-    private static OrderItem parseInputToOrderItem(String item) {
-        String[] menuAndQuantity = item.split(DASH_DELIMITER, -1);
+    private static OrderItem parseInputToOrderItem(String input) {
+        String[] menuAndQuantity = input.split(DASH_DELIMITER, -1);
         if (menuAndQuantity.length != 2) {
             throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
         }
