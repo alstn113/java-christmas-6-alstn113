@@ -44,8 +44,8 @@ class WeekdayDiscountStrategyTest {
     class isApplicable메서드_테스트 {
         @Test
         void 현재_날짜가_12월_1일_이상_12월_31일_이하가_아닌_경우_false를_리턴한다() {
-            LocalDate beforeEventDate = LocalDate.of(2023, 11, 30); // 12월 1일 미만
-            LocalDate afterEventDate = LocalDate.of(2024, 1, 1); // 12월 31일 초과
+            LocalDate beforeEventDate = LocalDate.of(2023, 11, 30);
+            LocalDate afterEventDate = LocalDate.of(2024, 1, 1);
 
             final boolean beforeEventResult = strategy.isApplicable(beforeEventDate, order);
             final boolean afterEventResult = strategy.isApplicable(afterEventDate, order);

@@ -7,10 +7,11 @@ import christmas.domain.order.OrderItem;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@DisplayName("SpecialDiscountStrategy 클래스")
 class SpecialDiscountStrategyTest {
 
     private static SpecialDiscountStrategy strategy;
@@ -18,54 +19,59 @@ class SpecialDiscountStrategyTest {
 
     @BeforeAll
     static void setUp() {
-        strategy = new SpecialDiscountStrategy();
         List<OrderItem> orderItems = List.of(
                 new OrderItem("티본스테이크", 2),
                 new OrderItem("초코케이크", 5),
                 new OrderItem("아이스크림", 3),
                 new OrderItem("제로콜라", 3)
         );
+
+        strategy = new SpecialDiscountStrategy();
         order = new Order(orderItems);
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {3, 10, 17, 24, 25, 31})
+    void applyEventIfApplicable메서드는_달력에_별이_있을_경우_1000원을_할인한다(int day) {
+        LocalDate currentDate = LocalDate.of(2023, 12, day);
 
-    @Test
-    @DisplayName("12월 1일 ~ 12월 31일이 아닌 경우 0을 반환한다.")
-    void applyEventIfApplicableTest1() {
-        LocalDate date1 = LocalDate.of(2023, 11, 30);
-        LocalDate date2 = LocalDate.of(2024, 1, 1);
+        final EventResult result = strategy.applyEventIfApplicable(currentDate, order);
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isZero();
+        assertThat(result.getDiscountAmount()).isEqualTo(1000);
     }
 
-    @Test
-    @DisplayName("12월의 일요일과 크리스마스에는 1000을 할인한다.")
-    void applyEventIfApplicableTest2() {
-        LocalDate date1 = LocalDate.of(2023, 12, 3);
-        LocalDate date2 = LocalDate.of(2023, 12, 10);
-        LocalDate date3 = LocalDate.of(2023, 12, 17);
-        LocalDate date4 = LocalDate.of(2023, 12, 24);
-        LocalDate date5 = LocalDate.of(2023, 12, 31);
-        LocalDate christmasDate = LocalDate.of(2023, 12, 25);
+    @Nested
+    class isApplicable메서드_테스트 {
+        @Test
+        void 현재_날짜가_12월_1일_이상_12월_31일_이하가_아닌_경우_false를_리턴한다() {
+            LocalDate beforeEventDate = LocalDate.of(2023, 11, 30);
+            LocalDate afterEventDate = LocalDate.of(2024, 1, 1);
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isEqualTo(1000);
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isEqualTo(1000);
-        assertThat(strategy.applyEventIfApplicable(date3, order).getDiscountAmount()).isEqualTo(1000);
-        assertThat(strategy.applyEventIfApplicable(date4, order).getDiscountAmount()).isEqualTo(1000);
-        assertThat(strategy.applyEventIfApplicable(date5, order).getDiscountAmount()).isEqualTo(1000);
-        assertThat(strategy.applyEventIfApplicable(christmasDate, order).getDiscountAmount()).isEqualTo(1000);
-    }
+            final boolean beforeEventResult = strategy.isApplicable(beforeEventDate, order);
+            final boolean afterEventResult = strategy.isApplicable(afterEventDate, order);
 
-    @Test
-    @DisplayName("12월의 일요일과 크리스마스가 아닌 경우 0을 반환한다.")
-    void applyEventIfApplicableTest3() {
-        LocalDate date1 = LocalDate.of(2023, 12, 5); // 화요일
-        LocalDate date2 = LocalDate.of(2023, 12, 18); // 월요일
-        LocalDate date3 = LocalDate.of(2023, 12, 28); // 목요일
+            assertThat(beforeEventResult).isFalse();
+            assertThat(afterEventResult).isFalse();
+        }
 
-        assertThat(strategy.applyEventIfApplicable(date1, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date2, order).getDiscountAmount()).isZero();
-        assertThat(strategy.applyEventIfApplicable(date3, order).getDiscountAmount()).isZero();
+        @ParameterizedTest
+        @ValueSource(ints = {4, 12, 16, 20, 22, 28})
+        void 달력에_별이_없을_경우_false를_리턴한다(int day) {
+            LocalDate currentDate = LocalDate.of(2023, 12, day);
+
+            final boolean result = strategy.isApplicable(currentDate, order);
+
+            assertThat(result).isFalse();
+        }
+
+        @ParameterizedTest
+        @ValueSource(ints = {3, 10, 17, 24, 25, 31})
+        void 달력에_별이_있을_경우_true를_리턴한다(int day) {
+            LocalDate currentDate = LocalDate.of(2023, 12, day);
+
+            final boolean result = strategy.isApplicable(currentDate, order);
+
+            assertThat(result).isTrue();
+        }
     }
 }
