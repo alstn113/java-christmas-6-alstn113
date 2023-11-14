@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class EventGroup {
-    List<Event> events;
+    private final List<Event> events;
 
     public EventGroup(List<Event> events) {
         this.events = new ArrayList<>(events);
