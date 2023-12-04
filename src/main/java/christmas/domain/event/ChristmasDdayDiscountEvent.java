@@ -1,5 +1,6 @@
 package christmas.domain.event;
 
+import christmas.domain.order.Order;
 import java.time.LocalDate;
 
 public class ChristmasDdayDiscountEvent extends Event {
@@ -12,5 +13,10 @@ public class ChristmasDdayDiscountEvent extends Event {
         super(START_DATE, END_DATE);
     }
 
-
+    @Override
+    protected EventBenefit applyEvent(LocalDate date, Order order) {
+        int daysFromEventStart = START_DATE.until(date).getDays();
+        int discountPrice = DEFAULT_DISCOUNT_PRICE + daysFromEventStart * DISCOUNT_PER_DAY;
+        return EventBenefit.of(discountPrice);
+    }
 }
