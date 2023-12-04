@@ -33,7 +33,7 @@ public enum Category {
         this.menus = menus;
     }
 
-    public static Category findByMenuName(Menu menu) {
+    public static Category findByMenu(Menu menu) {
         return Arrays.stream(Category.values())
                 .filter(category -> hasMenu(category, menu))
                 .findFirst()
