@@ -1,5 +1,6 @@
 package christmas.controller;
 
+import christmas.domain.ExpectedVisitDate;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 
