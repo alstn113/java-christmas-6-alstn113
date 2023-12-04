@@ -1,21 +1,17 @@
 package christmas.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
 class CategoryTest {
-    @ParameterizedTest
-    @ValueSource(strings = {"양송이수프", "타파스", "시저샐러드"})
-    void 존재하는_메뉴(String menuName) {
-        assertThat(Category.findByMenuName(menuName)).isNotNull();
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"고구마", "호박", "감자"})
-    void 존재하지_않는_메뉴(String menuName) {
-        assertThatThrownBy(() -> Category.findByMenuName(menuName));
+    @Test
+    void 메뉴의_카테고리를_찾는다() {
+        Menu menu1 = Menu.MUSHROOM_SOUP;
+        Menu menu2 = Menu.CHRISTMAS_PASTA;
+        Menu menu3 = Menu.ZERO_COLA;
+        assertThat(Category.findByMenuName(menu1)).isEqualTo(Category.APPETIZER);
+        assertThat(Category.findByMenuName(menu2)).isEqualTo(Category.MAIN_COURSE);
+        assertThat(Category.findByMenuName(menu3)).isEqualTo(Category.DRINK);
     }
 }

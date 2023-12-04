@@ -1,9 +1,6 @@
 package christmas.domain;
 
-import christmas.exception.ErrorMessage;
-import christmas.exception.InvalidInputException;
 import java.util.Arrays;
-import java.util.Objects;
 
 public enum Category {
     APPETIZER("애피타이저", new Menu[]{
@@ -25,7 +22,8 @@ public enum Category {
             Menu.ZERO_COLA,
             Menu.RED_WINE,
             Menu.CHAMPAGNE,
-    });
+    }),
+    NONE("기타", new Menu[]{});
 
     private final String viewName;
     private final Menu[] menus;
@@ -35,16 +33,16 @@ public enum Category {
         this.menus = menus;
     }
 
-    public static Category findByMenuName(String menuName) {
+    public static Category findByMenuName(Menu menu) {
         return Arrays.stream(Category.values())
-                .filter(category -> category.contains(menuName))
+                .filter(category -> hasMenu(category, menu))
                 .findFirst()
-                .orElseThrow(() -> new InvalidInputException(ErrorMessage.MENU_NOT_EXIST));
+                .orElse(NONE);
     }
 
-    private boolean contains(String menuName) {
-        return Arrays.stream(menus)
-                .anyMatch(menu -> menu.getViewName().equals(menuName));
+    private static boolean hasMenu(Category from, Menu searchTarget) {
+        return Arrays.stream(from.getMenus())
+                .anyMatch(containMenu -> containMenu == searchTarget);
     }
 
     public Menu[] getMenus() {
