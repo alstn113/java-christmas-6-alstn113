@@ -1,7 +1,9 @@
-package christmas.domain;
+package christmas.domain.order;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import christmas.domain.order.Menu;
+import christmas.domain.order.OrderItem;
 import christmas.exception.InvalidInputException;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

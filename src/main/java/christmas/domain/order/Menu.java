@@ -1,4 +1,4 @@
-package christmas.domain;
+package christmas.domain.order;
 
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;

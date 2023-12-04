@@ -1,7 +1,9 @@
-package christmas.domain;
+package christmas.domain.order;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.domain.order.Category;
+import christmas.domain.order.Menu;
 import org.junit.jupiter.api.Test;
 
 class CategoryTest {
