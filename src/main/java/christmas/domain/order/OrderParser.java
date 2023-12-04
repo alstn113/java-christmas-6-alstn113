@@ -5,7 +5,6 @@ import christmas.exception.InvalidInputException;
 import christmas.view.util.InputUtil;
 import java.util.Arrays;
 import java.util.List;
-import org.assertj.core.api.ErrorCollector;
 
 public class OrderParser {
     private static final String ORDER_DELIMITER = ",";
@@ -15,11 +14,15 @@ public class OrderParser {
     }
 
     public static Order parseInputToOrder(String input) {
-        String[] orderItemArray = input.split(ORDER_DELIMITER, -1);
-        List<OrderItem> orderItems = Arrays.stream(orderItemArray)
-                .map(OrderParser::parseInputToOrderItem)
-                .toList();
-        return new Order(orderItems);
+        try {
+            String[] orderItemArray = input.split(ORDER_DELIMITER, -1);
+            List<OrderItem> orderItems = Arrays.stream(orderItemArray)
+                    .map(OrderParser::parseInputToOrderItem)
+                    .toList();
+            return new Order(orderItems);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException(ErrorMessage.INVALID_ORDER);
+        }
     }
 
     private static OrderItem parseInputToOrderItem(String input) {

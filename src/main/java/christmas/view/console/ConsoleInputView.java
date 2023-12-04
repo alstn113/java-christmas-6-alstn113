@@ -1,15 +1,21 @@
 package christmas.view.console;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.exception.ErrorMessage;
+import christmas.exception.InvalidInputException;
 import christmas.view.InputView;
 import christmas.view.util.InputUtil;
 
 public class ConsoleInputView implements InputView {
     @Override
     public int readExpectedVisitDate() {
-        System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
-        String input = Console.readLine();
-        return InputUtil.parseInputToInt(input);
+        try {
+            System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
+            String input = Console.readLine();
+            return InputUtil.parseInputToInt(input);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException(ErrorMessage.INVALID_DATE);
+        }
     }
 
     @Override

@@ -1,8 +1,11 @@
 package christmas.controller;
 
 import christmas.domain.ExpectedVisitDate;
+import christmas.domain.order.Order;
+import christmas.domain.order.OrderParser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import christmas.view.util.InputUtil;
 
 public class EventPlannerController {
     private final InputView inputView;
@@ -14,6 +17,31 @@ public class EventPlannerController {
     }
 
     public void run() {
-        // TODO 구현 진행
+        printWelcomeMessage();
+        ExpectedVisitDate expectedVisitDate = readExpectedVisitDate();
+        Order order = readOrder();
+        printEventBenefitPreview();
+    }
+
+    private ExpectedVisitDate readExpectedVisitDate() {
+        return InputUtil.retryOnException(() -> {
+            int input = inputView.readExpectedVisitDate();
+            return new ExpectedVisitDate(input);
+        });
+    }
+
+    private Order readOrder() {
+        return InputUtil.retryOnException(() -> {
+            String input = inputView.readOrder();
+            return OrderParser.parseInputToOrder(input);
+        });
+    }
+
+    private void printWelcomeMessage() {
+        outputView.printWelcomeMessage();
+    }
+
+    private void printEventBenefitPreview() {
+        outputView.printEventBenefitPreview();
     }
 }
