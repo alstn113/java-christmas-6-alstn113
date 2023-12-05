@@ -6,12 +6,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class WeekdayDiscountEvent extends DecemberEvent {
-    private static final int DISCOUNT_PRICE_PER_DESSERT = 2023;
+    private static final int DISCOUNT_PER_DESSERT = 2023;
 
     @Override
     protected EventBenefit applyEvent(LocalDate date, Order order) {
         int dessertQuantity = order.getQuantityByCategory(Category.DESSERT);
-        int discountPrice = dessertQuantity * DISCOUNT_PRICE_PER_DESSERT;
+        int discountPrice = dessertQuantity * DISCOUNT_PER_DESSERT;
         return EventBenefit.of(discountPrice);
     }
 

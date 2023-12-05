@@ -8,7 +8,7 @@ public enum Category {
             Menu.TAPAS,
             Menu.CAESAR_SALAD
     }),
-    MAIN_COURSE("메인", new Menu[]{
+    MAIN("메인", new Menu[]{
             Menu.T_BONE_STEAK,
             Menu.BBQ_RIB,
             Menu.SEAFOOD_PASTA,
