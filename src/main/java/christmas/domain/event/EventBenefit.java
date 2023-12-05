@@ -20,6 +20,10 @@ public class EventBenefit {
         return new EventBenefit(discountPrice, Optional.empty());
     }
 
+    public static EventBenefit empty() {
+        return new EventBenefit(0, Optional.empty());
+    }
+
     public int getDiscountPrice() {
         return discountPrice;
     }

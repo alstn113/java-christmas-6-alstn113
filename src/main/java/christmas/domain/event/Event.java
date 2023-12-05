@@ -13,6 +13,13 @@ public abstract class Event {
         this.endDate = endDate;
     }
 
+    public EventBenefit applyEventIfApplicable(LocalDate date, Order order) {
+        if (isApplicable(date, order)) {
+            return applyEvent(date, order);
+        }
+        return EventBenefit.empty();
+    }
+
     protected abstract EventBenefit applyEvent(LocalDate date, Order order);
 
     public boolean isApplicable(LocalDate visitDate, Order order) {

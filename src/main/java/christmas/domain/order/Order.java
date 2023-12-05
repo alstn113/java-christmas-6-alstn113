@@ -47,6 +47,14 @@ public class Order {
                 .sum();
     }
 
+    public int getQuantityByCategory(Category category) {
+        return orderItems.stream()
+                .filter(orderItem -> Category.findByMenu(orderItem.menu()) == category)
+                .mapToInt(OrderItem::quantity)
+                .sum();
+
+    }
+
     public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
     }
