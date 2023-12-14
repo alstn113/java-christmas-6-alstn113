@@ -8,7 +8,7 @@ public class ChristmasDdayDiscount extends ChristmasEvent {
     private static final int DEFAULT_DISCOUNT = 1000;
 
     @Override
-    protected EventBenefit applyEvent(ExpectedVisitDate date, Order order) {
+    public EventBenefit applyEvent(ExpectedVisitDate date, Order order) {
         int daysFromEventStart = ChristmasEvent.EVENT_START_DATE.until(date.getDate()).getDays();
         int discount = DEFAULT_DISCOUNT + DISCOUNT_PER_DAY * daysFromEventStart;
         return new EventBenefit(discount);

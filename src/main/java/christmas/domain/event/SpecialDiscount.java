@@ -23,6 +23,6 @@ public class SpecialDiscount extends DecemberEvent {
     }
 
     private boolean isSpecialDay(LocalDate date) {
-        return date.getDayOfWeek() == DayOfWeek.SUNDAY && date == CHRISTMAS;
+        return date.getDayOfWeek() == DayOfWeek.SUNDAY || date == CHRISTMAS;
     }
 }

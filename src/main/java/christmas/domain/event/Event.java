@@ -18,10 +18,10 @@ public abstract class Event {
         return !date.isBefore(startDate) && !date.isAfter(endDate);
     }
 
-    protected boolean isApplicable(LocalDate date, Order order) {
+    public boolean isApplicable(LocalDate date, Order order) {
         return isEventProgress(date) && order.getTotalPrice() >= EVENT_CONDITION_PRICE;
     }
 
-    protected abstract EventBenefit applyEvent(ExpectedVisitDate date, Order order);
+    public abstract EventBenefit applyEvent(ExpectedVisitDate date, Order order);
 }
 
