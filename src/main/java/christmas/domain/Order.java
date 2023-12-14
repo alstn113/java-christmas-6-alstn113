@@ -57,4 +57,19 @@ public class Order {
     public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
     }
+
+    public int getQuantityByCategory(Category category) {
+        return orderItems.stream()
+                .filter(orderItem -> orderItem.menu().getCategory() == category)
+                .mapToInt(OrderItem::quantity)
+                .sum();
+    }
+
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.menu().getPrice() * orderItem.quantity();
+        }
+        return totalPrice;
+    }
 }

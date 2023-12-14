@@ -1,19 +1,18 @@
 package christmas.domain;
 
+import christmas.constant.EventConstant;
 import christmas.exception.ErrorMessage;
 import christmas.exception.InvalidInputException;
 import java.time.LocalDate;
 
 public class ExpectedVisitDate {
-    private static final int EVENT_YEAR = 2023;
-    private static final int EVENT_MONTH = 12;
     private static final int MIN_DAY = 1;
     private static final int MAX_DAY = 31;
     private final LocalDate date;
 
     public ExpectedVisitDate(int day) {
         validateDay(day);
-        this.date = LocalDate.of(EVENT_YEAR, EVENT_MONTH, day);
+        this.date = LocalDate.of(EventConstant.EVENT_YEAR, EventConstant.EVENT_MONTH, day);
     }
 
     private void validateDay(int day) {
