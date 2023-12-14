@@ -2,7 +2,9 @@ package christmas.controller;
 
 
 import christmas.domain.ExpectedVisitDate;
+import christmas.domain.Order;
 import christmas.dto.request.ExpectedVisitDateRequest;
+import christmas.dto.request.OrderRequest;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import christmas.view.util.InputUtil;
@@ -19,6 +21,7 @@ public class PlannerController {
     public void run() {
         outputView.printWelcomeMessage();
         ExpectedVisitDate date = readExpectedVisitDate();
+        Order order = readOrder();
         outputView.printEventBenefitsPreviewMessage();
     }
 
@@ -26,6 +29,13 @@ public class PlannerController {
         return InputUtil.retryOnException(() -> {
             ExpectedVisitDateRequest dto = inputView.readExpectedVisitDate();
             return dto.toExpectedVisitDate();
+        });
+    }
+
+    private Order readOrder() {
+        return InputUtil.retryOnException(() -> {
+            OrderRequest dto = inputView.readOrder();
+            return dto.toOrder();
         });
     }
 }

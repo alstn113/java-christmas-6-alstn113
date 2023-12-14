@@ -35,7 +35,7 @@ public enum Menu {
         this.price = price;
     }
 
-    public Menu findByName(String name) {
+    public static Menu findByName(String name) {
         return Arrays.stream(values())
                 .filter(menu -> menu.name.equals(name))
                 .findFirst()
