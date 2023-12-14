@@ -3,8 +3,6 @@ package christmas.domain.event;
 import static christmas.constant.EventConstant.EVENT_MONTH;
 import static christmas.constant.EventConstant.EVENT_YEAR;
 
-import christmas.domain.ExpectedVisitDate;
-import christmas.domain.Order;
 import java.time.LocalDate;
 
 public abstract class DecemberEvent extends Event {
