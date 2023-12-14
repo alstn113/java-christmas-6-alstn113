@@ -17,8 +17,9 @@ public class PlannerController {
     }
 
     public void run() {
+        outputView.printWelcomeMessage();
         ExpectedVisitDate date = readExpectedVisitDate();
-        System.out.println(date.getDate());
+        outputView.printEventBenefitsPreviewMessage();
     }
 
     private ExpectedVisitDate readExpectedVisitDate() {
