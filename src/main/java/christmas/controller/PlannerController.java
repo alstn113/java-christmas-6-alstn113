@@ -5,6 +5,7 @@ import christmas.domain.ExpectedVisitDate;
 import christmas.domain.Order;
 import christmas.dto.request.ExpectedVisitDateRequest;
 import christmas.dto.request.OrderRequest;
+import christmas.dto.response.OrderResponse;
 import christmas.view.InputView;
 import christmas.view.OutputView;
 import christmas.view.util.InputUtil;
@@ -22,6 +23,9 @@ public class PlannerController {
         outputView.printWelcomeMessage();
         ExpectedVisitDate date = readExpectedVisitDate();
         Order order = readOrder();
+
+        outputView.printOrder(OrderResponse.from(order));
+        outputView.printTotalPriceBeforeDiscount(order.getTotalPrice());
         outputView.printEventBenefitsPreviewMessage();
     }
 
